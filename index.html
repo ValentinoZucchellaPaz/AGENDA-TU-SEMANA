@@ -4,11 +4,119 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
+    <link rel="stylesheet" href="estilos.css">
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Aclonica&family=Cinzel:wght@400;500&family=El+Messiri&family=Julee&display=swap" rel="stylesheet">
+
+    <title>PROYECTO</title>
 </head>
 <body>
-    
-
+    <!-- mi entrega será hacer una funcion que calcule el precio final de las ofertas segun sus meses -->
+    <!-- header -->
+    <header>
+        <div class="title">
+            <h2>SAKURA DOJO</h2>
+            <h3>ARTES MARCIALES</h3>
+        </div>
+        <!-- menu -->
+        <nav>
+            <ul class="nav-ul">
+                <li class="nav-li"><a href="#" class="nav-link">INICIO</a></li>
+                <li class="nav-li"><a href="#" class="nav-link">ACTIVIDADES</a></li>
+                <li class="nav-li"><a href="#" class="nav-link">PRECIOS</a></li>
+            </ul>
+        </nav>
+    </header>
+    <!-- main -->
+    <main>
+        <!-- banner -->
+        <div class="banner">
+            <img src="banner.jpg" alt="">
+        </div>
+        <!-- activities section -->
+        <section class="activities">
+            <div class="activities-title">
+                <h2>Escuela de Artes Marciales</h2>
+                <h4>Los mejores profesionales para aprender a defenderse</h4>
+            </div>
+            <article class="card card1">
+                <div class="card-content">
+                    <h3>Karate</h3>
+                    <div class="card-content-info">
+                        <span>profesor</span>
+                        <p>Sergio Rodriguez 7mo dan</p>
+                    </div>
+                </div>
+            </article>
+            <article class="card card2">
+                <div class="card-content">
+                    <h3>Karate niños</h3>
+                    <div class="card-content-info">
+                        <span>profesor</span>
+                        <p>Sergio grecco 6to dan</p>
+                    </div>
+                </div>
+            </article>
+            <article class="card card3">
+                <div class="card-content">
+                    <h3>kickboxing</h3>
+                    <div class="card-content-info">
+                        <span>profesor</span>
+                        <p>Sergio Rodriguez 7mo dan</p>
+                    </div>
+                </div>
+            </article>
+            <article class="card card4">
+                <div class="card-content">
+                    <h3>boxeo</h3>
+                    <div class="card-content-info">
+                        <span>profesor</span>
+                        <p>franco diaz 3er dan</p>
+                    </div>
+                </div>
+            </article>
+        </section>
+        <section class="prices">
+            <h4>PRECIOS</h4>
+            <p>Todas las actividades tienen un precio de $3000 por mes. <br> Incluye pase la libre al gimnacio.</p>
+            <article class="sales">
+                <h4 class="sales-title">PROMOS</h4>
+                <form action="#" class="form">
+                    <input type="range" class="range" value="1" min="1" max="12" step="1" list="tickmarks">
+                    <datalist id="tickmarks">
+                        <option value="1" label="1">
+                            <option value="2" label="2">
+                                <option value="3" label="3">
+                        <option value="4" label="4">
+                        <option value="5" label="5">
+                        <option value="6" label="6">
+                        <option value="7" label="7">
+                        <option value="8" label="8">
+                            <option value="9" label="9">
+                        <option value="10" label="10">
+                            <option value="11" label="11">
+                                <option value="12" label="12">
+                                </datalist>
+                                
+                    <div class="month">
+                        <label for="month">Meses:</label>
+                        <input type="text" name="month" id="form__month">
+                    </div>
+                    <div class="price">
+                        <label for="price">Precio:</label>
+                        <label for="price"></label>
+                    </div>
+                </form>
+            </article>
+        </section>
+    </main>
+    <!-- footer -->
+    <footer>
+        <p>RAFAEL NUÑEZ 6069</p>
+    </footer>
     <script src="desafio1.js"></script>
 </body>
 </html>

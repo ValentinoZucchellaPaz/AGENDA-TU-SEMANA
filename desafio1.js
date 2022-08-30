@@ -1,46 +1,52 @@
-// desafio 1 - ciclos e iteraciones
-// crear programa que devuelva un producto y pida multiplicando y multiplicador
-// ADEMÁS el programa guardará todos los datos de las operaciones en la consola
-
-alert("El siguiente programa dirá el resultado de un multiplicacion del 1 al 10 y se deben ingresar multiplicando y multiplicador.");
-
-let condition;
-let counter = 0;
-
-while (condition !== "esc") {
-
-    // preguntar antes de realizar una operacion
-    condition = prompt("Presiona cualquier tecla para continuar. Sino escriba ESC").toLowerCase();
-    if (condition === "esc") {
-        break
+class MonthPrice {
+    constructor(cantidad){
+        this.month = parseInt(cantidad);
+        this.monthPrice = 3000;
+        this.price = this.month * this.monthPrice;
     }
 
-    // contador de numero de operaciones registradas
-    console.log("------------------------------------------------------------------------");
-    counter++;
-    console.log("OPERACIÓN N°: " + counter);
+    discount() {
+        if (this.month >= 3  && this.month <=12) {
+            const discountPercentage = 1 - (this.month * 0.04);
+            this.monthPrice = this.monthPrice * discountPercentage;
+            this.price = this.month * this.monthPrice;
 
-    // generar numeros random y crear operacion
-    const randomNum1 = parseInt(Math.random() * 10);
-    const randomNum2 = parseInt(Math.random() * 10);
-    const operation = randomNum1 * randomNum2;
+            
+            console.log ("CONSULTA DE PRECIO \n     Total: $" + this.price + 
+            "\n     Precio por mes: $" + this.monthPrice + 
+            "\n     " + parseInt((1 - discountPercentage)*100) + "% OFF");
+            return ("Total: $" + this.price + 
+            "\n Precio por mes: $" + this.monthPrice + 
+            "\n " + parseInt((1 - discountPercentage)*100) + "% OFF");
+        } else if (this.month > 12) {
+            const discountPercentage = 1 - parseFloat(12 * 0.04);
+            this.monthPrice = this.monthPrice * discountPercentage;
+            this.price = this.month * this.monthPrice;
 
-    // devolver operacion y preguntar números
-    console.log("El resultado de la multiplicacion es: " + operation);
-    alert("El resultado de la multiplicacion es: " + operation);
-    let num1 = Number(prompt("Escriba el PRIMER número de la multiplicacion").trim());
-    let num2 = Number(prompt("Escriba el SEGUNDO número de la multiplicacion").trim());
-    console.log("Mi operación: " + num1 + " x " + num2);
+            console.log ("CONSULTA DE PRECIO \n     Total: $" + this.price + 
+            "\n     Precio por mes: $" + this.monthPrice + 
+            "\n     " + parseInt((1 - discountPercentage)*100) + "% OFF");
+            return ("Total: $" + this.price + 
+            "\n Precio por mes: $" + this.monthPrice + 
+            "\n " + parseInt((1 - discountPercentage)*100) + "% OFF");
+            
+        } else {
+            return ("Total: $" + this.price + 
+            "\n Precio por mes: $" + this.monthPrice);
+        }
 
-
-    // validacion de resultado
-    if (num1 * num2 === operation) {
-        alert("CORRECTO, " + operation + " es el resultado de " + num1 + " x " + num2);
-        console.log("CORRECTO, " + operation + " es el resultado de " + num1 + " x " + num2);
-    }else{
-        alert("Lo lamento, tu resultado es INCORRECTO. El correcto es " + randomNum1 + " x " + randomNum2 + " = " + operation)
-        console.log("Lo lamento, tu resultado es INCORRECTO. El correcto es " + randomNum1 + " x " + randomNum2 + " = " + operation)
+        
     }
 }
 
-alert("Buena práctica, todas las operaciones que realizaste se encuentran impresas en la consola por si quieres volver a verlas.")
+
+let condition = prompt("¿Estás listo para empezar? \n SI            NO").toLowerCase();
+
+while (condition != "no") {
+    let consultPrice = new MonthPrice(prompt("¿Cuántos meses quieres pagar? Pasados los tres meses hay descuento, abonar el año completo tiene casi 50% de descuento"));
+    while (isNaN(consultPrice.month)) {
+        consultPrice.month = prompt("Lo siento, debes escribir un número de mes");
+    }
+    alert(consultPrice.discount());
+    condition = prompt("¿Quieres consultar otros precios?").toLowerCase();
+}

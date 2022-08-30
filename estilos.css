@@ -1,0 +1,202 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Cinzel', sans-serif;
+}
+
+/* header */
+header{
+    height: 50px;
+    background-color: #dc143c;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+header div, nav {
+    padding: 5px 80px;
+}
+.title {
+    display: flex;
+    align-items: center;
+}
+.title h3 {
+    margin-left: 20px;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity .25s;
+}
+.title:hover > h3 {
+    opacity: 1;
+}
+
+
+.nav-ul {
+    display: flex;
+    justify-content: space-evenly;
+    list-style: none;
+}
+.nav-li {
+    margin: 0 10px;
+}
+.nav-link {
+    color: #fff;
+    text-decoration: none;
+    position: relative;
+}
+.nav-link::after{
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    height: 1px;
+    width: 0;
+    background-color: #fff;
+    transition: width .25s;
+}
+.nav-li:hover > .nav-link::after{
+    width: 100%;
+}
+
+
+
+/* footer */
+footer{
+    height: 50px;
+    background-color: #dc143c;
+    color: #fff;
+}
+footer p {
+    text-align: center;
+    font-size: 10px;
+    padding: 20px;
+}
+
+
+/* main */
+main{
+    position: relative;
+    background-color: rgba(220, 20, 60, 0.1);
+}
+.banner{
+    position: fixed;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+}
+.banner img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: opacity(0.2) blur(1px);
+}
+section {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    text-align: center;
+    padding: 5% 0;
+}
+
+
+/* cards section */
+.activities {
+    margin: auto;
+    width: 80%;
+    height: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto auto auto;
+    gap: 20px;
+    align-items: center;
+    justify-items: center;
+    grid-template-areas:
+        "title title"
+        "card1 card2"
+        "card3 card4";
+}
+.activities-title {
+    grid-area: title;
+    text-align: center;
+    padding: 10px;
+}
+.activities-title h2{
+    font-size: 35px;
+}
+.card {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    border-radius: 20px;
+    overflow: hidden;
+    color: #fff;
+    background: url(karatelogo.jpg) center no-repeat;
+    background-size: cover;
+}
+.card-content {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 20px;
+    background-color: #dc143c;
+    border-radius: 20px;
+    transform: translateY(80px);
+    transition: transform 0.25s;
+}
+.card:hover .card-content {
+    transform: translateY(0);
+}
+.card-content-info {
+    margin-top: 10px;
+    height: 65px;
+}
+.card1 {
+    grid-area: card1;
+}
+.card2 {
+    grid-area: card2;
+}
+.card3 {
+    grid-area: card3;
+}
+.card4 {
+    grid-area: card4;
+}
+
+
+/* prices section */
+.prices h4{
+    font-size: 35px;
+}
+.sales {
+    border: 1px solid #dc143c;
+    border-radius: 10px;
+    width: 50%;
+    margin: 50px auto;
+}
+.form{
+    margin: 10px;
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas: 
+    "range range"
+    "month price";
+}
+.range {
+    grid-area: range;
+    margin: 20px;
+}
+.month {
+    grid-area: month;
+    margin: 20px;
+}
+.price {
+    grid-area: price;
+    margin: 20px;
+}
