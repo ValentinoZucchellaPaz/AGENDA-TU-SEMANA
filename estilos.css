@@ -69,11 +69,12 @@ footer{
     height: 50px;
     background-color: #dc143c;
     color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 footer p {
-    text-align: center;
     font-size: 10px;
-    padding: 20px;
 }
 
 
@@ -195,6 +196,11 @@ section {
 .month {
     grid-area: month;
     margin: 20px;
+}
+#month {
+    padding: 3px;
+    color: #000;
+
 }
 .price {
     grid-area: price;
