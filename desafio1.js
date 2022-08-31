@@ -50,8 +50,8 @@ let activities = [];
 for (let i = 1; i <= activitiesNumber; i++) {
     activities.push(prompt('¿Cual es la ' + i + '° actividad que te interesó?'))
 }
-for (activitie of activities){
-    console.log(activitie);
+for (activity of activities){
+    console.log(activity);
 }
 
 
