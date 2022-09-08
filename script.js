@@ -189,3 +189,17 @@ function lastId () {
     let allIds = tasks.flatMap(array => array.map(obj => obj.id));
     return Math.max(...allIds);
 }
+
+
+
+
+// agregar tareas a los días correspondientes
+
+tasks.forEach((days, counter) => {
+    const weekDayHtml = document.getElementById(`day${counter+1}-ul`);
+    for (obj of days) {
+        const taskLi = document.createElement('li');
+        taskLi.innerHTML = `<p style="display:inline;" >${obj.name}: </p> <span style="font-weight:400;">${obj.hour} hs.</span>`;
+        weekDayHtml.append(taskLi);
+    }
+});

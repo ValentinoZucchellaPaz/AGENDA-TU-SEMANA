@@ -65,7 +65,7 @@ body {
     height: calc(100vh - 150px);
 }
 .datos form {
-    margin: 50px;
+    margin: 50px 0;
     padding: 50px;
     border-radius: 10px;
     border: 1px solid #000;
@@ -73,6 +73,7 @@ body {
 
     background-color: rgba(0, 0, 0, 0.1);
     height: 100%;
+    width: 100%;
     display: grid;
     grid-template-rows: 0.5fr 1fr 2fr 0.5fr;
     grid-template-columns: repeat(2, 1fr);
