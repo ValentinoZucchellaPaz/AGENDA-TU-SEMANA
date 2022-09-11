@@ -15,7 +15,7 @@ let lunes = [
 let martes = [];
 let miercoles = [
     {
-        id:1,
+        id:2,
         name: 'KARATE',
         hour: '19:00',
         description: 'ir a entrenar',
@@ -24,7 +24,7 @@ let miercoles = [
 let jueves = [];
 let viernes = [
     {
-        id:1,
+        id:3,
         name: 'KARATE',
         hour: '19:00',
         description: 'ir a entrenar',
@@ -193,13 +193,50 @@ function lastId () {
 
 
 
-// agregar tareas a los días correspondientes
-
+// agregar tareas a los días correspondientes (junto a esto se definen las funciones para borrar o marcar como completas las tareas individualmente)
 tasks.forEach((days, counter) => {
-    const weekDayHtml = document.getElementById(`day${counter+1}-ul`);
-    for (obj of days) {
+    const dayUlSelector = document.getElementById(`day${counter+1}-ul`);
+    days.forEach(task => {
         const taskLi = document.createElement('li');
-        taskLi.innerHTML = `<p style="display:inline;" >${obj.name}: </p> <span style="font-weight:400;">${obj.hour} hs.</span>`;
-        weekDayHtml.append(taskLi);
-    }
+        taskLi.setAttribute('id', `task-${task.id}`);
+        taskLi.innerHTML = `<p style="display:inline;" >${task.name}: </p> <span style="font-weight:400;">${task.hour} hs.</span> 
+        <div class="btn-container"> <button class="btn-delete" id="delete-${task.id}" title="Eliminar tarea"><i class="fa-solid fa-xmark"></i></button>
+        <button class="btn-check" id="completed-${task.id}" title="Tarea completada"><i class="fa-solid fa-check" id="icon-check-${task.id}"></i></button> </div>`;
+        dayUlSelector.append(taskLi);
+
+        deleteTaskDOM(dayUlSelector, taskLi, `delete-${task.id}`)
+
+        completedTaskDOM(taskLi, `completed-${task.id}`, `icon-check-${task.id}`)
+    });
 });
+
+// funcion de marcar tarea especifica como completa
+function completedTaskDOM (liHtml, btnId, iconId){
+    const confirmBtn = document.getElementById(btnId);
+    const checkIcon = document.getElementById(iconId);
+    
+    confirmBtn.addEventListener('click', ()=> {
+        liHtml.classList.toggle('green');
+        checkIcon.classList.toggle('green');
+    })
+}
+
+// funcion de eliminar tarea especifica
+function deleteTaskDOM(fatherHTML, taskHTML, btnId) {
+    const deleteBtn = document.getElementById(btnId);
+    deleteBtn.addEventListener('click', ()=> fatherHTML.removeChild(taskHTML))
+}
+
+// eliminar todas las tareas
+const deleteAllTasks = document.getElementById('delete-all');
+deleteAllTasks.addEventListener('click', ()=>{
+    let condition = prompt('¿Estás seguro que quieres borrar todas las tareas?\n1. Sí    2. No').toLowerCase();
+    if (condition == 1 || condition == 'si' || condition == 'sí') {
+        const allUlSelector = document.querySelectorAll('.day-ul');
+        allUlSelector.forEach(ul => ul.innerHTML = null);
+
+
+        tasks = tasks.map(dayArray => dayArray=[]);
+        alert('Todas las tareas fueron eliminadas');
+    }
+})

@@ -58,13 +58,13 @@ body {
     background: linear-gradient(180deg, rgba(120,120,170,1) 0%, rgba(203,203,233,1) 15%, rgba(203,203,233,1) 85%, rgba(120,120,170,1) 100%);
 }
 
-.datos {
+.form-container {
     text-align: center;
     width: 60%;
     margin: auto;
     height: calc(100vh - 150px);
 }
-.datos form {
+.form-container form {
     margin: 50px 0;
     padding: 50px;
     border-radius: 10px;
@@ -76,22 +76,25 @@ body {
     width: 100%;
     display: grid;
     grid-template-rows: 0.5fr 1fr 2fr 0.5fr;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-template-areas: 
-    "title title"
-    "day-selector task-selector"
-    "text-area text-area"
-    "btn btn";
+    "title title title"
+    "day-selector task-selector hour-selector"
+    "text-area text-area text-area"
+    "btn btn btn";
     justify-content: center;
     align-items: center;
     gap: 10px;
 }
-.datos form h3 {
+.form-container form h3 {
     grid-area: title;
     font-size: 30px;
 }
 .day-selector {
     grid-area: day-selector;
+}
+.hour-selector{
+    grid-area: hour-selector;
 }
 .task-selector {
     grid-area: task-selector;
@@ -102,13 +105,12 @@ body {
     padding: 10px;
     text-align: center;
 }
-.datos form input {
+.form-container form input {
     border-radius: 10px;
     height: 40px;
     text-align: center;
 }
-
-.datos form button {
+.form-container form button {
     grid-area: btn;
     border-radius: 10px;
     width: 25%;
@@ -127,10 +129,10 @@ body {
 
     height: 100%;
     padding: 20px;
-}
 
+    position: relative;
+}
 .day {
-    text-align: center;
     padding: 10px;
     margin: 20px;
     font-weight: 700;
@@ -140,17 +142,109 @@ body {
     
     border-radius: 20px;
     background-color: rgba(0, 0, 0, 0.2);
-    width: 250px;
+    width: 300px;
     height: 200px;
     transition: all .25s;
-}
-.day ul {
-    align-self: center;
+    overflow: hidden;
 }
 .day:hover {
     background-color: rgba(0, 0, 0, 0.6);
     color: #fff;
     transform: scale(1.05, 1.1);
+}
+.day-title{ 
+    text-align: center;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font-size: 18px;
+}
+.day-ul {
+    position: relative;
+    margin: 0 20%;
+    list-style-type: circle;
+    list-style-position: inside;
+    transition: margin .5s;
+}
+.day:hover .day-ul {
+    margin: 0 5%;
+    list-style-type: disc;
+}
+
+
+
+
+/* botones borrar o completar */
+.btn-container {
+    position: absolute;
+    right: -2.5%;
+    display: none;
+}
+.day:hover .btn-container{
+    display: inline;
+}
+.btn-delete,.btn-check{
+    display: inline;
+    background-color: inherit;
+    border: none;
+    cursor: pointer;
+}
+.fa-xmark,.fa-check{ /* estilos del <i> contenedor */
+    padding: 10px;
+    position: relative;
+}
+.fa-xmark::before,.fa-check::before{ /* estilos al before que contiene al icono */
+    color: rgba(180, 180, 180, 0.2);
+    padding: 5px;
+    width: 10px;
+    height: 10px;
+    
+    position: absolute;
+    top: 10%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    transition: all .2s;
+}
+.btn-delete:hover .fa-xmark::before{
+    color: rgb(199, 28, 28);
+    transform: scale(1.2);
+}
+.btn-check:hover .fa-check::before{
+    color: rgb(128, 214, 42);
+    transform: scale(1.2);
+}
+
+.green {
+    color: rgb(128, 214, 42);
+}
+.green::before {
+    color: rgb(128, 214, 42);
+}
+.day:not(:hover) .green {
+    color: rgb(128, 214, 42);
+    padding: 5px;
+    background-color: #444;
+    border-radius: 10px;
+}
+
+.delete-all {
+    border: rgb(199, 28, 28) solid 2px;
+    color: rgb(199, 28, 28);
+    border-radius: 10px;
+    background-color: transparent;
+
+    position: absolute;
+    bottom: 1%;
+    right: 5%;
+    
+    padding: 20px;
+    cursor: pointer;
+    transition: all .25s;
+}
+.delete-all:hover{
+    background-color: rgb(199, 28, 28);
+    color: #fff;
 }
 
 

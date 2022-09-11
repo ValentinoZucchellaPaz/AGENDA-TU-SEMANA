@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="style.css">
 
     <!-- iconos -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/71feeb67fe.js" crossorigin="anonymous"></script>
 
     <!-- fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,51 +30,53 @@
     </header>
      
     <main>
-        <div class="datos" id="datos">
+        <div class="form-container" id="form-container">
             <form action="#">
                 <h3>Agregar nueva tarea</h3>
-                <input type="text" class="day-selector" name="day-selector" id="day-selector" placeholder="Día/s de la tarea">
                 <input type="text" class="task-selector" name="task-selector" id="task-selector" placeholder="Nombre de tarea">
+                <input type="text" class="day-selector" name="day-selector" id="day-selector" placeholder="Día/s de la tarea">
+                <input type="text" class="hour-selector" name="hour-selector" id="hour-selector" placeholder="Hora de la tarea">
                 <textarea name="task-description" class="text-area-selector" id="task-description" cols="30" rows="10" placeholder="Descripcion de la tarea"></textarea>
-                <button type="submit">Agregar tarea</button>
+                <button type="submit" id="submit">Agregar tarea</button>
             </form>
         </div>
         <div class="container-days">
             <div class="day" id="day1">
-                <h4>Lunes</h4>
-                <ul id="day1-ul">
+                <h4 class="day-title">Lunes</h4>
+                <ul class="day-ul" id="day1-ul">
                 </ul>
             </div>
             <div class="day" id="day2">
-                <h4>Martes</h4>
-                <ul id="day2-ul">
+                <h4 class="day-title">Martes</h4>
+                <ul class="day-ul" id="day2-ul">
                 </ul>
             </div>
             <div class="day" id="day3">
-                <h4>Miercoles</h4>
-                <ul id="day3-ul">
+                <h4 class="day-title">Miercoles</h4>
+                <ul class="day-ul" id="day3-ul">
                 </ul>
             </div>
             <div class="day" id="day4">
-                <h4>Jueves</h4>
-                <ul id="day4-ul">
+                <h4 class="day-title">Jueves</h4>
+                <ul class="day-ul" id="day4-ul">
                 </ul>
             </div>
             <div class="day" id="day5">
-                <h4>Viernes</h4>
-                <ul id="day5-ul">
+                <h4 class="day-title">Viernes</h4>
+                <ul class="day-ul" id="day5-ul">
                 </ul>
             </div>
             <div class="day" id="day6">
-                <h4>Sabado</h4>
-                <ul id="day6-ul">
+                <h4 class="day-title">Sabado</h4>
+                <ul class="day-ul" id="day6-ul">
                 </ul>
             </div>
             <div class="day" id="day7">
-                <h4>Domingo</h4>
-                <ul id="day7-ul">
+                <h4 class="day-title">Domingo</h4>
+                <ul class="day-ul" id="day7-ul">
                 </ul>
             </div>
+            <button id="delete-all" class="delete-all">LIMPIAR TAREAS</button>
         </div>
     </main>
     <footer>
