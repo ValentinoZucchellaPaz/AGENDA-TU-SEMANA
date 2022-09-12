@@ -215,13 +215,13 @@ body {
     transform: scale(1.2);
 }
 
-.green {
+.completed { /*cambia color cuando completa*/
     color: rgb(128, 214, 42);
 }
-.green::before {
+.completed::before {
     color: rgb(128, 214, 42);
 }
-.day:not(:hover) .green {
+.day:not(:hover) .completed {
     color: rgb(128, 214, 42);
     padding: 5px;
     background-color: #444;

@@ -36,59 +36,35 @@ let domingo = [];
 let tasks = [lunes, martes, miercoles, jueves, viernes, sabado, domingo];
 
 
+
+
+
+
+// MANIPULAR DATOS JS
+
+
 /**ENTRADA DE DATOS */
 while (condition!== 0) {
-    condition = Number(prompt('Ingresa una opcion: \n1. Agregar Tarea\n2. Borrar Tareas\n3. Ver Tarea\n0. Salir')); 
+    condition = Number(prompt('Ingresa una opcion: \n1. Agregar Tarea\n0. Salir')); 
     // aca le asigno valor numerico
     switch (condition) { //segun ese numero lo devuelvo en uno de los casos
 
         case 1:
             // pedir datos
-            let day = Number(prompt('INGRESE DIA\n1. Lunes\n2. Martes\n3. Miercoles\n4. Jueves\n5. Viernes\n6. Sabado\n7. Domingo\n8. Todos los días'));
+            let day = Number(prompt('INGRESE DIA\n1. Lunes  2. Martes   3. Miercoles 4. Jueves\n5. Viernes  6. Sabado   7. Domingo 8. Todos los días'));
 
             while (isNaN(day)) {
-                day = Number(prompt('Lo siento, ingresa un número para el día que quieres elegir\n1. Lunes  2. Martes   3. Miercoles\n4. Jueves 5. Viernes  6. Sabado   7. Domingo'));
-                while(day > 8) {
-                    day = Number(prompt('Por favor ingresa un número que esté especificado:\n1. Lunes\n2. Martes\n3. Miercoles\n4. Jueves\n5. Viernes\n6. Sabado\n7. Domingo\n8. Todos los días'))
-                }
+                day = Number(prompt('Lo siento, ingresa un número para el día que quieres elegir\n1. Lunes  2. Martes   3. Miercoles 4. Jueves\n5. Viernes  6. Sabado   7. Domingo 8. Todos los días'));
+            }
+            while(day > 8) {
+                day = Number(prompt('Por favor ingresa un número que esté especificado:\n1. Lunes  2. Martes   3. Miercoles 4. Jueves\n5. Viernes  6. Sabado   7. Domingo 8. Todos los días'))
             }
             const name = prompt('INRESE NOMBRE DE LA TAREA').toUpperCase();
             const hour = prompt('INGRESE LA HORA');
             const description = prompt('Ingrese la descripcion de la tarea');
             const id = asignarId();
             createTask(day, hour, name, description, id);
-            break;
-
-        case 2:
-            // pedir datos
-            let dayDelete = Number(prompt('DIA QUE QUIERES ELIMINAR TU TAREA\n\n1. Lunes\n2. Martes\n3. Miercoles\n4. Jueves\n5. Viernes\n6. Sabado\n7. Domingo\n8. Todos los días'))
-            while (isNaN(dayDelete)) {
-                dayDelete = Number(prompt('Lo siento, ingresa un número para el día que quieres elegir\n\n1. Lunes\n2. Martes\n3. Miercoles\n4. Jueves\n5. Viernes\n6. Sabado\n7. Domingo\n 8. Todos los días'));
-                while(dayDelete > 8) {
-                    consultOptions = Number(prompt('Por favor ingresa un número que esté especificado:\n\n1. Lunes\n2. Martes\n3. Miercoles\n4. Jueves\n5. Viernes\n6. Sabado\n7. Domingo\n8. Todos los días'))
-                }
-            }
-
-
-
-            let nameDelete = prompt('INGRESE EL NOMBRE DE LA TAREA A ELIMINAR\nSi no conoces el nombre escribe "consultar"').toUpperCase();
-            if(nameDelete == 'consultar'){
-                continue
-            }
-            deleteTask(dayDelete, nameDelete);
-            break;
-
-        case 3:
-            // pedir datos
-            let consultOptions = Number(prompt('DIA QUE QUIERES CONSULTAR TUS TAREAS\n\n1. Lunes\n2. Martes\n3. Miercoles\n4. Jueves\n5. Viernes\n6. Sabado\n7. Domingo\n8. Todas mis tareas'));
-            while (isNaN(consultOptions)){
-                consultOptions = Number(prompt('Lo siento, ingresa un número para el día que quieres elegir\n\n1. Lunes\n2. Martes\n3. Miercoles\n4. Jueves\n5. Viernes\n6. Sabado\n7. Domingo\n8. Todas mis tareas'));
-                while(consultOptions > 8) {
-                    consultOptions = Number(prompt('Por favor ingresa un número que esté especificado:\n\n1. Lunes\n2. Martes\n3. Miercoles\n4. Jueves\n5. Viernes\n6. Sabado\n7. Domingo\n8. Todas mis tareas'))
-                }
-            }
-
-            consultTasks(consultOptions);
+            consultTasks(day);
             break;
 
         case 0:
@@ -110,13 +86,15 @@ function createTask(day, hour, name, description, id) {
         hour,
         description
     }
-
     if (day < 8) {
         day -= 1;
         tasks[day].push(task);
     } else if (day == 8) {
         day -= 1;
-        tasks.forEach((array) => array.push(task));
+        tasks.forEach((array) => {
+            task.id += 1;
+            array.push(task);
+        });
     }
 
     alert('Tu tarea se asignó con el id ' + id);
@@ -193,20 +171,32 @@ function lastId () {
 
 
 
-// agregar tareas a los días correspondientes (junto a esto se definen las funciones para borrar o marcar como completas las tareas individualmente)
+
+
+// DOM
+
+
+// agregar tareas a los días correspondientes (funciones borrar o marcar como completas tareas individuales)
 tasks.forEach((days, counter) => {
     const dayUlSelector = document.getElementById(`day${counter+1}-ul`);
     days.forEach(task => {
         const taskLi = document.createElement('li');
         taskLi.setAttribute('id', `task-${task.id}`);
-        taskLi.innerHTML = `<p style="display:inline;" >${task.name}: </p> <span style="font-weight:400;">${task.hour} hs.</span> 
-        <div class="btn-container"> <button class="btn-delete" id="delete-${task.id}" title="Eliminar tarea"><i class="fa-solid fa-xmark"></i></button>
-        <button class="btn-check" id="completed-${task.id}" title="Tarea completada"><i class="fa-solid fa-check" id="icon-check-${task.id}"></i></button> </div>`;
+        taskLi.innerHTML = `
+        <p style="display:inline;" >${task.name}: </p> <span style="font-weight:400;">${task.hour} hs.</span> 
+        <div class="btn-container"> 
+            <button class="btn-delete" id="delete-${task.id}" title="Eliminar tarea">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <button class="btn-check" id="completed-${task.id}" title="Tarea completada">
+                <i class="fa-solid fa-check" id="icon-check-${task.id}"></i>
+            </button>
+        </div>`;
         dayUlSelector.append(taskLi);
 
-        deleteTaskDOM(dayUlSelector, taskLi, `delete-${task.id}`)
+        deleteTaskDOM(dayUlSelector, taskLi, `delete-${task.id}`);
 
-        completedTaskDOM(taskLi, `completed-${task.id}`, `icon-check-${task.id}`)
+        completedTaskDOM(taskLi, `completed-${task.id}`, `icon-check-${task.id}`);
     });
 });
 
@@ -216,8 +206,8 @@ function completedTaskDOM (liHtml, btnId, iconId){
     const checkIcon = document.getElementById(iconId);
     
     confirmBtn.addEventListener('click', ()=> {
-        liHtml.classList.toggle('green');
-        checkIcon.classList.toggle('green');
+        liHtml.classList.toggle('completed');
+        checkIcon.classList.toggle('completed');
     })
 }
 
