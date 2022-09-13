@@ -1,41 +1,31 @@
 /**DEFINO CONDICION PARA LA ENTRADA DE DATOS */
 let condition; //aca vale undefined
 
-
+class Task {
+    constructor(hour, name, description, id) {
+        this.hour = hour;
+        this.name = name;
+        this.description = description;
+        this.id = id;
+    }
+}
 /**ARRAYS DONDE SE GUARDAN DATOS */
 
 let lunes = [
-    {
-        id:1,
-        name: 'KARATE',
-        hour: '19:00',
-        description: 'ir a entrenar',
-    }
+    new Task ('19:00', 'KARATE', 'ir a entrenar', 1),
 ];
 let martes = [];
 let miercoles = [
-    {
-        id:2,
-        name: 'KARATE',
-        hour: '19:00',
-        description: 'ir a entrenar',
-    }
+    new Task ('19:00', 'KARATE', 'ir a entrenar', 2),
 ];
 let jueves = [];
 let viernes = [
-    {
-        id:3,
-        name: 'KARATE',
-        hour: '19:00',
-        description: 'ir a entrenar',
-    }
+    new Task ('19:00', 'KARATE', 'ir a entrenar', 3),
 ];
 let sabado = [];
 let domingo = [];
 
 let tasks = [lunes, martes, miercoles, jueves, viernes, sabado, domingo];
-
-
 
 
 
@@ -64,7 +54,6 @@ while (condition!== 0) {
             const description = prompt('Ingrese la descripcion de la tarea');
             const id = asignarId();
             createTask(day, hour, name, description, id);
-            consultTasks(day);
             break;
 
         case 0:
@@ -79,25 +68,18 @@ while (condition!== 0) {
 
 /**AGREGAR TAREAS */
 function createTask(day, hour, name, description, id) {
-    // crear tarea con los datos
-    const task = {
-        id,
-        name,
-        hour,
-        description
-    }
+    // crear tarea con los datos dependiendo del día
     if (day < 8) {
         day -= 1;
-        tasks[day].push(task);
+        tasks[day].push(new Task(hour, name, description, id));
+        alert('Tu tarea se asignó con el id ' + id);
     } else if (day == 8) {
-        day -= 1;
-        tasks.forEach((array) => {
-            task.id += 1;
-            array.push(task);
+        tasks.forEach((array, counter) => {
+            const newId = `${name}-${counter+1}`;
+            array.push(new Task(hour, name, description, newId));
         });
     }
 
-    alert('Tu tarea se asignó con el id ' + id);
 }
 
 
@@ -159,13 +141,13 @@ function deleteTask(day, Name) {
 }
 
 
-// ASIGNO ID sumando 1 al ULTIMO
+// ASIGNO ID sumando 1 al total de IDs
 function asignarId(){
     return lastId() + 1;
 }
 function lastId () {
     let allIds = tasks.flatMap(array => array.map(obj => obj.id));
-    return Math.max(...allIds);
+    return allIds.length;
 }
 
 
