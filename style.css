@@ -30,7 +30,7 @@ header {
     height: 1px;
 
     background-color: #fff;
-    transition: all .25s;
+    transition: all .5s;
 }
 .title::after {
     content: '';
@@ -42,13 +42,13 @@ header {
     height: 1px;
 
     background-color: #fff;
-    transition: all .25s;
+    transition: all .5s;
 }
 .title:hover::before {
-    width: 100%;
+    width: 25%;
 }
 .title:hover:after {
-    width: 100%;
+    width: 25%;
 }
 
 
@@ -64,7 +64,7 @@ body {
     margin: auto;
     height: calc(100vh - 150px);
 }
-.form-container form {
+.form-container .form {
     margin: 50px 0;
     padding: 50px;
     border-radius: 10px;
@@ -86,7 +86,7 @@ body {
     align-items: center;
     gap: 10px;
 }
-.form-container form h3 {
+.form-container .form h3 {
     grid-area: title;
     font-size: 30px;
 }
@@ -95,6 +95,13 @@ body {
 }
 .hour-selector{
     grid-area: hour-selector;
+    position: relative;
+}
+.hour-selector::before {
+    content: 'Hora:';
+    position: absolute;
+    left: 5px;
+    color: #000;
 }
 .task-selector {
     grid-area: task-selector;
@@ -105,12 +112,12 @@ body {
     padding: 10px;
     text-align: center;
 }
-.form-container form input {
+.form-container .form input{
     border-radius: 10px;
     height: 40px;
     text-align: center;
 }
-.form-container form button {
+.form-container .form button {
     grid-area: btn;
     border-radius: 10px;
     width: 25%;

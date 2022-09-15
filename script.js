@@ -79,7 +79,6 @@ function createTask(day, hour, name, description, id) {
             array.push(new Task(hour, name, description, newId));
         });
     }
-
 }
 
 
@@ -113,31 +112,29 @@ function consultTasks(day) {
 
 /**ELIMINAR TAREAS */
 function deleteTask(day, Name) {
-
     if (day < 8) {
+
         day -= 1;
-        
         // output
-        let deletedTasks = tasks[day].filter(task => task.name == Name);
-        alert ('LAS TAREAS ELIMINADAS SE MOSTRARÁN POR CONSOLA');
+        let deletedTasks = tasks[day].filter(obj => obj.name == Name);
         console.log('TAREAS ELIMINADAS DEL DÍA ' + (day+1));
         console.log(deletedTasks)
-        
-        // ELIMINAR DE ARRAY
-        tasks[day] = tasks[day].filter(task => task.name !== Name);
 
-    } else if (day == 8) {
-        
+        // ELIMINAR DE ARRAY
+        tasks[day] = tasks[day].filter(obj => obj.name !== Name);
+
+    } else if (day == 8) { //eliminar todas con determinado nombre
+
         // output
-        deletedTasks = tasks.map(dayArray => dayArray.filter(task => task.name == Name));
+        deletedTasks = tasks.map(dayArray => dayArray.filter(obj => obj.name == Name));
         alert ('LAS TAREAS ELIMINADAS SE MOSTRARÁN POR CONSOLA');
         console.log('TAREAS ELIMINADAS DE TODOS LOS DÍAS');
         console.log(deletedTasks)
         
         // ELIMINAR DE ARRAY
-        tasks = tasks.map(dayArray => dayArray.filter(task => task.name !== Name));
-    }
+        tasks = tasks.map(dayArray => dayArray.filter(obj => obj.name !== Name));
 
+    }
 }
 
 
@@ -151,38 +148,94 @@ function lastId () {
 }
 
 
+// CREAR TAREA DESDE EL DOM
+const createTaskBtn = document.getElementById('submit')
+createTaskBtn.addEventListener('click', () => {
+    const inputName = document.getElementById('task-selector').value.toUpperCase();
+    const inputDay = document.getElementById('day-selector').value;
+    const inputHour = document.getElementById('hour-selector').value;
+    const inputDescription = document.getElementById('task-description').value;
+    const newTaskId = asignarId();
+    
+    createTask(Number(inputDay), inputHour, inputName, inputDescription, newTaskId);
 
+    // const dayUlSelector = document.getElementById(`day${inputDay}-ul`);
+    // const taskLi = document.createElement('li');
+    // taskLi.setAttribute('id', `task-${newTaskId}`);
+    // taskLi.innerHTML = `
+    // <p style="display:inline;" >${inputName}: </p> <span style="font-weight:400;">${inputHour} hs.</span> 
+    // <div class="btn-container"> 
+    //     <button class="btn-delete" id="delete-${newTaskId}" title="Eliminar tarea">
+    //         <i class="fa-solid fa-xmark"></i>
+    //     </button>
+    //     <button class="btn-check" id="completed-${newTaskId}" title="Tarea completada">
+    //         <i class="fa-solid fa-check" id="icon-check-${newTaskId}"></i>
+    //     </button>
+    // </div>`;
+    // dayUlSelector.append(taskLi);
+
+    // deleteTaskDOM(dayUlSelector, taskLi, `delete-${newTaskId}`, (inputDay), inputName);
+
+    // completedTaskDOM(taskLi, `completed-${newTaskId}`, `icon-check-${newTaskId}`);
+    addTaskDOM(inputDay, newTaskId, inputName, inputHour);
+});
 
 
 
 // DOM
 
 
-// agregar tareas a los días correspondientes (funciones borrar o marcar como completas tareas individuales)
+// AGREGAR TAREAS AL DOM (borra o marcar como completas)
 tasks.forEach((days, counter) => {
-    const dayUlSelector = document.getElementById(`day${counter+1}-ul`);
+    // const dayUlSelector = document.getElementById(`day${counter+1}-ul`);
+    // days.forEach(task => {
+    //     const taskLi = document.createElement('li');
+    //     taskLi.setAttribute('id', `task-${task.id}`);
+    //     taskLi.innerHTML = `
+    //     <p style="display:inline;" >${task.name}: </p> <span style="font-weight:400;">${task.hour} hs.</span> 
+    //     <div class="btn-container"> 
+    //         <button class="btn-delete" id="delete-${task.id}" title="Eliminar tarea">
+    //             <i class="fa-solid fa-xmark"></i>
+    //         </button>
+    //         <button class="btn-check" id="completed-${task.id}" title="Tarea completada">
+    //             <i class="fa-solid fa-check" id="icon-check-${task.id}"></i>
+    //         </button>
+    //     </div>`;
+    //     dayUlSelector.append(taskLi);
+
+    //     deleteTaskDOM(dayUlSelector, taskLi, `delete-${task.id}`, (counter+1), task.name);
+
+    //     completedTaskDOM(taskLi, `completed-${task.id}`, `icon-check-${task.id}`);
+    // });
     days.forEach(task => {
-        const taskLi = document.createElement('li');
-        taskLi.setAttribute('id', `task-${task.id}`);
-        taskLi.innerHTML = `
-        <p style="display:inline;" >${task.name}: </p> <span style="font-weight:400;">${task.hour} hs.</span> 
-        <div class="btn-container"> 
-            <button class="btn-delete" id="delete-${task.id}" title="Eliminar tarea">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <button class="btn-check" id="completed-${task.id}" title="Tarea completada">
-                <i class="fa-solid fa-check" id="icon-check-${task.id}"></i>
-            </button>
-        </div>`;
-        dayUlSelector.append(taskLi);
-
-        deleteTaskDOM(dayUlSelector, taskLi, `delete-${task.id}`);
-
-        completedTaskDOM(taskLi, `completed-${task.id}`, `icon-check-${task.id}`);
-    });
+        addTaskDOM((counter+1), task.id, task.name, task.hour)
+    })
 });
 
-// funcion de marcar tarea especifica como completa
+
+// funcion agregar tarea al dom 
+function addTaskDOM(dayNumber, taskId, taskName, taskHour) {
+    const UlSelector = document.getElementById(`day${dayNumber}-ul`);
+    const taskLi = document.createElement('li');
+    taskLi.setAttribute('id', `task-${taskId}`);
+    taskLi.innerHTML = `
+    <p style="display:inline;" >${taskName}: </p> <span style="font-weight:400;">${taskHour} hs.</span> 
+    <div class="btn-container"> 
+        <button class="btn-delete" id="delete-${taskId}" title="Eliminar tarea">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <button class="btn-check" id="completed-${taskId}" title="Tarea completada">
+            <i class="fa-solid fa-check" id="icon-check-${taskId}"></i>
+        </button>
+    </div>`;
+    UlSelector.append(taskLi);
+
+    deleteTaskDOM(UlSelector, taskLi, `delete-${taskId}`, dayNumber, taskName);
+
+    completedTaskDOM(taskLi, `completed-${taskId}`, `icon-check-${taskId}`);
+}
+
+// funcion marcar como completa
 function completedTaskDOM (liHtml, btnId, iconId){
     const confirmBtn = document.getElementById(btnId);
     const checkIcon = document.getElementById(iconId);
@@ -193,10 +246,13 @@ function completedTaskDOM (liHtml, btnId, iconId){
     })
 }
 
-// funcion de eliminar tarea especifica
-function deleteTaskDOM(fatherHTML, taskHTML, btnId) {
-    const deleteBtn = document.getElementById(btnId);
-    deleteBtn.addEventListener('click', ()=> fatherHTML.removeChild(taskHTML))
+// funcion eliminar tarea
+function deleteTaskDOM(fatherHTML, taskHTML, btnIdHTML, dayPosition, taskName) {
+    const deleteBtn = document.getElementById(btnIdHTML);
+    deleteBtn.addEventListener('click', ()=> {
+        fatherHTML.removeChild(taskHTML)
+        deleteTask(dayPosition, taskName);
+    });
 }
 
 // eliminar todas las tareas
