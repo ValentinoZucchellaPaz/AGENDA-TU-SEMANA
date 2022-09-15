@@ -95,13 +95,6 @@ body {
 }
 .hour-selector{
     grid-area: hour-selector;
-    position: relative;
-}
-.hour-selector::before {
-    content: 'Hora:';
-    position: absolute;
-    left: 5px;
-    color: #000;
 }
 .task-selector {
     grid-area: task-selector;
@@ -170,11 +163,14 @@ body {
     margin: 0 20%;
     list-style-type: circle;
     list-style-position: inside;
-    transition: margin .5s;
+    transition: margin .25s;
 }
-.day:hover .day-ul {
+.day:hover > .day-ul {
     margin: 0 5%;
     list-style-type: disc;
+}
+.day-ul li {
+    margin: 3px;
 }
 
 
@@ -236,15 +232,13 @@ body {
 }
 
 .delete-all {
+    display: block;
     border: rgb(199, 28, 28) solid 2px;
     color: rgb(199, 28, 28);
-    border-radius: 10px;
+    border-radius: 100px;
     background-color: transparent;
-
-    position: absolute;
-    bottom: 1%;
-    right: 5%;
     
+    margin: 20px auto;
     padding: 20px;
     cursor: pointer;
     transition: all .25s;
