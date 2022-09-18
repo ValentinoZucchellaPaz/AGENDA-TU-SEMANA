@@ -116,9 +116,16 @@ body {
     width: 25%;
     height: 40px;
     margin: auto;
+    transition: all .25s;
 }
 
-
+.form-container .form button:hover {
+    background-color: #444;
+    color: #fff;
+}
+.form-container .form button:active {
+    transform: scale(0.9);
+}
 
 
 .container-days{
