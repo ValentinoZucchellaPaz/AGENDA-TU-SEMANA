@@ -31,30 +31,24 @@
      
     <main>
         <div class="form-container" id="form-container">
-            <div class="form">
+            <form action="#" autocomplete="off">
                 <h3>Agregar nueva tarea</h3>
-
-
                 <input type="text" class="task-selector" name="task-selector" id="task-selector" placeholder="Nombre de tarea">
-                
-                <input type="text" class="day-selector" name="day-selector" id="day-selector" placeholder="Día/s de la tarea" list="days-option">
-
-                <datalist id="days-option">
-                    <option value="lunes"></option>
-                    <option value="martes"></option>
-                    <option value="miercoles"></option>
-                    <option value="jueves"></option>
-                    <option value="viernes"></option>
-                    <option value="sabado"></option>
-                    <option value="domingo"></option>
-                </datalist>
-
-                <input type="text" class="hour-selector" name="hour-selector" id="hour-selector" placeholder="Hora">
-                <textarea name="task-description" class="text-area-selector" id="task-description" cols="30" rows="10" placeholder="Descripcion de la tarea"></textarea>
+                <input type="text" class="hour-selector" name="hour-selector" id="hour-selector" placeholder="Hora de tarea">
+                <div class="days-container">
+                    <label for="">Días: </label>
+                    <input type="checkbox" class="lunes" name="lunes" id="lunes">
+                    <input type="checkbox" class="martes" name="martes" id="martes">
+                    <input type="checkbox" class="miercoles" name="miercoles" id="miercoles">
+                    <input type="checkbox" class="jueves" name="jueves" id="jueves">
+                    <input type="checkbox" class="viernes" name="viernes" id="viernes">
+                    <input type="checkbox" class="sabado" name="sabado" id="sabado">
+                    <input type="checkbox" class="domingo" name="domingo" id="domingo">
+                </div>
                 <button id="submit">Agregar tarea</button>
-            </div>
+            </form>
         </div>
-        <div class="container-days">
+        <div class="container-days" id="container-days">
             <div class="day" id="day1">
                 <h4 class="day-title">Lunes</h4>
                 <ul class="day-ul" id="lunes-ul">
@@ -77,6 +71,7 @@
             </div>
             <div class="day" id="day5">
                 <h4 class="day-title">Viernes</h4>
+                <!-- FIXME: -->
                 <ul class="day-ul" id="viernes-ul">
                 </ul>
             </div>

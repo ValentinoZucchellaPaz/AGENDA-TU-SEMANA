@@ -59,71 +59,151 @@ body {
 }
 
 .form-container {
-    text-align: center;
-    width: 60%;
-    margin: auto;
-    height: calc(100vh - 150px);
+    height: calc(100vh - 50px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.form-container .form {
-    margin: 50px 0;
-    padding: 50px;
+.form-container form {
+    margin: auto;
+    padding: 10px;
     border-radius: 10px;
     border: 1px solid #000;
+    text-align: center;
 
 
     background-color: rgba(0, 0, 0, 0.1);
-    height: 100%;
-    width: 100%;
+    height: 60%;
+    width: 60%;
     display: grid;
-    grid-template-rows: 0.5fr 1fr 2fr 0.5fr;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: .5fr 2fr .5fr;
     grid-template-areas: 
     "title title title"
-    "day-selector task-selector hour-selector"
-    "text-area text-area text-area"
+    ". task-selector ."
+    ". hour-selector ."
+    "days-container days-container days-container"
     "btn btn btn";
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 5px;
 }
-.form-container .form h3 {
+/* title */
+.form-container form h3 {
     grid-area: title;
     font-size: 30px;
+    text-transform: uppercase;
 }
-.day-selector {
-    grid-area: day-selector;
-}
-.hour-selector{
-    grid-area: hour-selector;
-}
+/* name */
 .task-selector {
     grid-area: task-selector;
 }
-.text-area-selector {
-    grid-area: text-area;
-    border-radius: 10px;
-    padding: 10px;
-    text-align: center;
+/* hour */
+.hour-selector{
+    grid-area: hour-selector;
 }
-.form-container .form input{
+/* days */
+.day-selector {
+    display: none;
+}
+
+/* days checkbox system */
+.days-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    grid-area: days-container;
+    position: relative;
+    margin-top: 20px;
+}
+.days-container label {
+    font-size: 20px;
+    position: absolute;
+    top: -30px;
+}
+.days-container input[type="checkbox"] {
+    appearance: none;
+
+    width: 50px;
+    height: 50px;
+    border: 1px solid #000;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: all .2s;
+}
+.days-container input[type="checkbox"]:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px 5px rgba(0, 0, 0, 0.2);
+    font-weight: 600;
+}
+.days-container input[type="checkbox"]:checked {
+    background-color: #333;
+}
+.days-container input[type="checkbox"]:checked:before {
+    color: #fff;
+    font-weight: 600;
+}
+.days-container .lunes::before {
+    content: 'L';
+}
+.days-container .martes::before {
+    content: 'M';
+}
+.days-container .miercoles::before {
+    content: 'Mi';
+}
+.days-container .jueves::before {
+    content: 'J';
+}
+.days-container .viernes::before {
+    content: 'V';
+}
+.days-container .sabado::before {
+    content: 'S';
+}
+.days-container .domingo::before {
+    content: 'D';
+}
+
+
+/* grales */
+.form-container form input{
     border-radius: 10px;
     height: 40px;
     text-align: center;
+    border: solid 1px #333;
 }
-.form-container .form button {
+/* button */
+.form-container form button {
     grid-area: btn;
-    border-radius: 10px;
+    background-color: white;
+    border: solid 1px #333;
     width: 25%;
     height: 40px;
     margin: auto;
-    transition: all .25s;
-}
 
-.form-container .form button:hover {
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 50px;
+    text-align: center;
+
+    transition: all 0.1s ease-in;        
+}
+.form-container form button:hover {
     background-color: #444;
     color: #fff;
+    transform: scale(1.05);
+    box-shadow: 0 0 30px 10px rgba(0, 0, 0, 0.2);
 }
-.form-container .form button:active {
+.form-container form button:active {
     transform: scale(0.9);
 }
 
@@ -133,23 +213,24 @@ body {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
+    gap: 40px;
 
     height: 100%;
-    padding: 20px;
+    padding: 50px;
 
     position: relative;
 }
 .day {
+    position: relative;
     padding: 10px;
-    margin: 20px;
     font-weight: 700;
     
     display: flex;
-    flex-direction: column;    
+    flex-direction: column;  
     
     border-radius: 20px;
     background-color: rgba(0, 0, 0, 0.2);
-    width: 300px;
+    width: 350px;
     height: 200px;
     transition: all .25s;
     overflow: hidden;
@@ -158,6 +239,7 @@ body {
     background-color: rgba(0, 0, 0, 0.6);
     color: #fff;
     transform: scale(1.05, 1.1);
+    overflow-y: auto;
 }
 .day-title{ 
     text-align: center;
@@ -167,17 +249,29 @@ body {
 }
 .day-ul {
     position: relative;
-    margin: 0 20%;
-    list-style-type: circle;
+    width: 100%;
+    margin: 0 10%;
+
+
+    list-style-type: none;
     list-style-position: inside;
     transition: margin .25s;
 }
 .day:hover > .day-ul {
-    margin: 0 5%;
+    margin: 0;
     list-style-type: disc;
 }
 .day-ul li {
+    width: 80%;
     margin: 3px;
+    text-align: center;
+}
+.day:hover .day-ul li {
+    width: 80%;
+    text-align: start;
+}
+.day-ul li p span {
+    display: none;
 }
 
 
@@ -186,30 +280,30 @@ body {
 /* botones borrar o completar */
 .btn-container {
     position: absolute;
-    right: -2.5%;
+    right: 2.5%;
     display: none;
 }
 .day:hover .btn-container{
     display: inline;
 }
-.btn-delete,.btn-check{
+.btn-delete,.btn-check, .btn-edit{
     display: inline;
     background-color: inherit;
     border: none;
     cursor: pointer;
 }
-.fa-xmark,.fa-check{ /* estilos del <i> contenedor */
-    padding: 10px;
+.fa-xmark,.fa-check, .fa-pen-to-square{ /* estilos del <i> contenedor */
+    padding: 7px;
     position: relative;
 }
-.fa-xmark::before,.fa-check::before{ /* estilos al before que contiene al icono */
+.fa-xmark::before,.fa-check::before, .fa-pen-to-square::before{ /* estilos al before que contiene al icono */
     color: rgba(180, 180, 180, 0.2);
     padding: 5px;
     width: 10px;
     height: 10px;
     
     position: absolute;
-    top: 10%;
+    top: 0;
     bottom: 0;
     left: 0;
     right: 0;
@@ -222,6 +316,10 @@ body {
 }
 .btn-check:hover .fa-check::before{
     color: rgb(128, 214, 42);
+    transform: scale(1.2);
+}
+.btn-edit:hover .fa-pen-to-square::before{
+    color: #999;
     transform: scale(1.2);
 }
 
@@ -244,6 +342,8 @@ body {
     color: rgb(199, 28, 28);
     border-radius: 100px;
     background-color: transparent;
+    font-weight: 600;
+    letter-spacing: .5px;
     
     margin: 20px auto;
     padding: 20px;
@@ -253,6 +353,7 @@ body {
 .delete-all:hover{
     background-color: rgb(199, 28, 28);
     color: #fff;
+    box-shadow: 0 0 50px 10px rgba(199, 28, 28, 0.2);
 }
 
 
@@ -277,4 +378,88 @@ footer a {
 }
 footer a:hover {
     text-decoration: underline;
+}
+
+
+
+
+/* js classes */
+
+.modal-container {
+    position: fixed;
+    top: 0;
+    z-index: 50;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(50, 50, 50, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal {
+    position: absolute;
+    z-index: 60;
+    top: 25%;
+    width: 50%;
+    height: fit-content;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    animation: .5s translateIn;
+}
+.go-up {
+    animation: 1s goUp;
+}
+
+@keyframes translateIn {
+    from {
+        top: -100%;
+    }
+    to {
+        top:25%
+    }
+}
+@keyframes goUp {
+    from {
+        top: 25%;
+    }
+    to {
+        top:-100%
+    }
+}
+
+
+
+.modal .btn-container-modal {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 10px;
+}
+/* button */
+.modal .btn-container-modal button {
+    grid-area: btn;
+    background-color: white;
+    border: solid 1px rgba(51, 51, 51, 0.5);
+    width: 100px;
+    height: 30px;
+
+    text-transform: uppercase;
+    border-radius: 50px;
+    text-align: center;
+    transition: all 0.15s ease-in;
+            
+}
+.modal .btn-container-modal button:hover {
+    background-color: #444;
+    color: #fff;
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+.modal .btn-container-modal button:active {
+    transform: scale(0.9);
+}
+.no-scroll {
+    overflow: hidden;
 }
