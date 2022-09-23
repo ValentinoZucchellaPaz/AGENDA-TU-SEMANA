@@ -4,6 +4,9 @@
     box-sizing: border-box;
     font-family: 'Quicksand', sans-serif;
 }
+:focus-visible {
+    outline: none;
+}
 
 header {
     height: 50px;
@@ -128,7 +131,7 @@ body {
 
     width: 50px;
     height: 50px;
-    border: 1px solid #000;
+    border: 1px solid #333;
     border-radius: 50%;
     cursor: pointer;
     font-size: 20px;
@@ -179,13 +182,14 @@ body {
     border-radius: 10px;
     height: 40px;
     text-align: center;
-    border: solid 1px #333;
+    /* border: solid 1px #333; */
+    border: none;
 }
 /* button */
 .form-container form button {
     grid-area: btn;
     background-color: white;
-    border: solid 1px #333;
+    border: none;
     width: 25%;
     height: 40px;
     margin: auto;
@@ -378,88 +382,4 @@ footer a {
 }
 footer a:hover {
     text-decoration: underline;
-}
-
-
-
-
-/* js classes */
-
-.modal-container {
-    position: fixed;
-    top: 0;
-    z-index: 50;
-    width: 100%;
-    height: 100vh;
-    background-color: rgba(50, 50, 50, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.modal {
-    position: absolute;
-    z-index: 60;
-    top: 25%;
-    width: 50%;
-    height: fit-content;
-    background-color: #fff;
-    border-radius: 20px;
-    padding: 20px;
-    text-align: center;
-    animation: .5s translateIn;
-}
-.go-up {
-    animation: 1s goUp;
-}
-
-@keyframes translateIn {
-    from {
-        top: -100%;
-    }
-    to {
-        top:25%
-    }
-}
-@keyframes goUp {
-    from {
-        top: 25%;
-    }
-    to {
-        top:-100%
-    }
-}
-
-
-
-.modal .btn-container-modal {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin: 10px;
-}
-/* button */
-.modal .btn-container-modal button {
-    grid-area: btn;
-    background-color: white;
-    border: solid 1px rgba(51, 51, 51, 0.5);
-    width: 100px;
-    height: 30px;
-
-    text-transform: uppercase;
-    border-radius: 50px;
-    text-align: center;
-    transition: all 0.15s ease-in;
-            
-}
-.modal .btn-container-modal button:hover {
-    background-color: #444;
-    color: #fff;
-    transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
-.modal .btn-container-modal button:active {
-    transform: scale(0.9);
-}
-.no-scroll {
-    overflow: hidden;
 }
