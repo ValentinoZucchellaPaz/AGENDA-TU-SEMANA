@@ -11,11 +11,7 @@ class Task {
         return day;
     }
 }
-let tasks = [
-    new Task('lunes, miercoles, viernes', 'KARATE', '19:00', 1),
-    new Task('lunes', 'entrenar', '17:00', 2),
-    new Task('viernes', 'estudiar', '8:00', 3),
-]
+let tasks = []
 
 // TODO: funcion de editar tarea
 
@@ -48,6 +44,12 @@ createTaskBtn.addEventListener('click', (e) => {
         timer: 3000,
         timerProgressBar: true
     })
+    document.getElementById('task-selector').value = '';
+    document.getElementById('hour-selector').value = '';
+    days.forEach(day => {
+        const dayCheckbox = document.getElementById(day);
+        dayCheckbox.checked = false;
+    });
 });
 
 // crea tarea y sube a tasks, actualiza LS
@@ -87,6 +89,8 @@ function addTaskToDOM(day, {name, hour, id, completed}) {
 
     completeTaskBtnDOM(li, `completed-${liId}`, `icon-check-${liId}`, id, day);
 
+    editTaskBtnDOM(`edit-${liId}`, name, hour, id);
+
     completed.includes(day) && ( li.classList.toggle('completed'), document.getElementById(`icon-check-${liId}`).classList.toggle('completed') )
 }
 
@@ -119,7 +123,6 @@ function deleteTask (taskId) {
     console.log(deletedTask);
 }
 
-// TODO: cambiar estado para mantener verde cuando se recargue página
 // cuando presiono btn (btnId), se muestra verde li e icon (iconId)
 function completeTaskBtnDOM (li, btnId, iconId, taskId, dayToComplete){
     const checkBtn = document.getElementById(btnId);
@@ -137,6 +140,93 @@ function completeTaskBtnDOM (li, btnId, iconId, taskId, dayToComplete){
     })
 }
 
+// TODO: editar tareas btn
+function editTaskBtnDOM(btnId, taskName, taskHour, taskId) {
+    const btnEdit = document.getElementById(btnId);
+    btnEdit.addEventListener('click', ()=> {
+        const modalContainer = document.createElement('div');
+        modalContainer.classList.add('modal-container')
+        modalContainer.innerHTML = `
+        <form class="modal">
+            <h3>Editar tarea</h3>
+            <label for="name">Nombre: </label>
+            <input type="text" class="task-selector" id="name-edit" value="${taskName}">
+            <label for="hour">Hora: </label>
+            <input type="text" class="hour-selector" id="hour-edit" value="${taskHour}">
+            <label for="days"> Días: </label>
+            <div class="days-container">
+                <input type="checkbox" class="lunes" name="lunes" id="lunes-modal">
+                <input type="checkbox" class="martes" name="martes" id="martes-modal">
+                <input type="checkbox" class="miercoles" name="miercoles" id="miercoles-modal">
+                <input type="checkbox" class="jueves" name="jueves" id="jueves-modal">
+                <input type="checkbox" class="viernes" name="viernes" id="viernes-modal">
+                <input type="checkbox" class="sabado" name="sabado" id="sabado-modal">
+                <input type="checkbox" class="domingo" name="domingo" id="domingo-modal">
+            </div>
+            <div class="btn-container-modal">
+                <button class="save-changes-modal" id="save-changes">GUARDAR CAMBIOS</> 
+                <button class="dismiss-changes-modal" id="dismiss-changes">CANCELAR</button>
+            </div>
+        </form>
+        `;
+        document.body.style.overflow = "hidden";
+        modalContainer.style.top = `-${window.screenTop}px`;
+        document.body.appendChild(modalContainer);
+
+        // marcar días anteriores como completos en los checkbox
+        const taskToChange = tasks.find(task => task.id == taskId);
+        taskToChange.day.forEach(day => {
+            const dayCheckbox = document.getElementById(`${day}-modal`);
+            dayCheckbox.checked = true;
+        });
+
+
+        document.getElementById('save-changes').addEventListener('click', () => {
+
+            taskToChange.day.forEach(day => {
+                const ul = document.getElementById(`${day}-ul`);
+                const li = document.getElementById(`${day}-${taskToChange.name.trim()}-${taskToChange.id}`);
+                ul.removeChild(li);
+            })
+            deleteTask(taskToChange.id)
+            
+            let inputName = document.getElementById('name-edit').value.toUpperCase();
+            let inputHour = document.getElementById('hour-edit').value;
+            const id = asingId();
+
+            // obtener dias de los checkbox marcados
+            const daysToRepeatTask = [];
+            const days = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
+            days.forEach(day => {
+                const dayCheckbox = document.getElementById(`${day}-modal`);
+                dayCheckbox.checked && daysToRepeatTask.push(dayCheckbox.name);
+            });
+            
+
+            // subir a tasks y al dom
+            createTask(daysToRepeatTask, inputName, inputHour, id);
+
+            // mostrar toast 
+            Swal.fire({
+                text: `${inputName} ahora es los días: ${daysToRepeatTask.join(', ')}`,
+                toast: true,
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true
+            })
+
+
+            document.body.removeChild(modalContainer);
+            document.body.style.overflow = "";
+        })
+        document.getElementById('dismiss-changes').addEventListener('click', () => {
+            document.body.removeChild(modalContainer);
+            document.body.style.overflow = "";
+        })
+
+
+    })
+}
 
 
 
