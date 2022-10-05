@@ -1,3 +1,18 @@
+:root{
+    --header-footer_color: #2d2d96;
+    --font: 'Quicksand', sans-serif;
+    --white: #fff;
+    --clear-gray: rgb(203, 203, 233);
+    --midle-gray: gray;
+    --dark-gray: #333;
+    --transparent-gray: rgba(180, 180, 180, 0.2);
+    --transparent-black: rgba(0, 0, 0, 0.2);
+    --semi-transparent-black: rgba(0, 0, 0, 0.6);
+    --delete-btn-color: rgb(199, 28, 28);
+    --save-btn-color: rgb(128, 214, 42);
+}
+
+
 *{
     margin: 0;
     padding: 0;
@@ -11,8 +26,8 @@
 header {
     height: 50px;
     
-    background-color: #2d2d96;
-    color: #fff;
+    background-color: var(--header-footer_color);
+    color: var(--white);
     
     display: flex;
     align-items: center;
@@ -32,7 +47,7 @@ header {
     width: 0;
     height: 1px;
 
-    background-color: #fff;
+    background-color: var(--white);
     transition: all .5s;
 }
 .title::after {
@@ -44,7 +59,7 @@ header {
     width: 0;
     height: 1px;
 
-    background-color: #fff;
+    background-color: var(--white);
     transition: all .5s;
 }
 .title:hover::before {
@@ -57,8 +72,7 @@ header {
 
 /* main */
 body {
-    background: rgb(120,120,170);
-    background: linear-gradient(180deg, rgba(120,120,170,1) 0%, rgba(203,203,233,1) 15%, rgba(203,203,233,1) 85%, rgba(120,120,170,1) 100%);
+    background: var(--clear-gray);
 }
 
 .form-container {
@@ -67,15 +81,15 @@ body {
     justify-content: center;
     align-items: center;
 }
-form {
+.form {
     margin: auto;
     padding: 10px;
     border-radius: 10px;
-    border: 1px solid #000;
+    border: 1px solid var(--dark-gray);
     text-align: center;
 
 
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: var(--transparent-black);
     height: 60%;
     width: 60%;
     display: grid;
@@ -94,7 +108,7 @@ form {
     gap: 5px;
 }
 /* title */
-form h3 {
+.form h3 {
     grid-area: title;
     font-size: 30px;
     text-transform: uppercase;
@@ -114,7 +128,7 @@ label[for="hour"] {
     grid-area: hour-selector;
 }
 /* days */
-form label[for="days"] {
+.form label[for="days"] {
     grid-area: label-days;
 }
 
@@ -133,7 +147,7 @@ form label[for="days"] {
 
     width: 50px;
     height: 50px;
-    border: 1px solid #333;
+    border: 1px solid var(--dark-gray);
     border-radius: 50%;
     cursor: pointer;
     font-size: 20px;
@@ -146,14 +160,14 @@ form label[for="days"] {
 }
 .days-container input[type="checkbox"]:hover {
     transform: scale(1.1);
-    box-shadow: 0 0 30px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 30px 5px var(--transparent-black);
     font-weight: 600;
 }
 .days-container input[type="checkbox"]:checked {
-    background-color: #333;
+    background-color: var(--dark-gray);
 }
 .days-container input[type="checkbox"]:checked:before {
-    color: #fff;
+    color: var(--white);
     font-weight: 600;
 }
 .days-container .lunes::before {
@@ -180,16 +194,16 @@ form label[for="days"] {
 
 
 /* grales */
-form input{
+.form input{
     border-radius: 10px;
     height: 40px;
     text-align: center;
     border: none;
 }
 /* button */
-form button {
+.form button {
     grid-area: btn;
-    background-color: white;
+    background-color: var(--white);
     border: none;
     width: 25%;
     height: 40px;
@@ -202,13 +216,13 @@ form button {
 
     transition: all 0.1s ease-in;        
 }
-form button:hover {
-    background-color: #444;
-    color: #fff;
+.form button:hover {
+    background-color: var(--midle-gray);
+    color: var(--white);
     transform: scale(1.05);
-    box-shadow: 0 0 30px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 30px 10px var(--transparent-black);
 }
-form button:active {
+.form button:active {
     transform: scale(0.9);
 }
 
@@ -234,15 +248,15 @@ form button:active {
     flex-direction: column;  
     
     border-radius: 20px;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: var(--transparent-black);
     width: 350px;
     height: 200px;
     transition: all .25s;
     overflow: hidden;
 }
 .day:hover {
-    background-color: rgba(0, 0, 0, 0.6);
-    color: #fff;
+    background-color: var(--semi-transparent-black);
+    color: var(--white);
     transform: scale(1.05, 1.1);
     overflow-y: auto;
 }
@@ -302,7 +316,7 @@ form button:active {
     position: relative;
 }
 .fa-xmark::before,.fa-check::before, .fa-pen-to-square::before{ /* estilos al before que contiene al icono */
-    color: rgba(180, 180, 180, 0.2);
+    color: var(--transparent-gray);
     padding: 5px;
     width: 10px;
     height: 10px;
@@ -316,26 +330,26 @@ form button:active {
     transition: all .2s;
 }
 .btn-delete:hover .fa-xmark::before{
-    color: rgb(199, 28, 28);
+    color: var(--delete-btn-color);
     transform: scale(1.2);
 }
 .btn-check:hover .fa-check::before{
-    color: rgb(128, 214, 42);
+    color: var(--save-btn-color);
     transform: scale(1.2);
 }
 .btn-edit:hover .fa-pen-to-square::before{
-    color: #999;
+    color: var(--midle-gray);
     transform: scale(1.2);
 }
 
 .completed { /*cambia color cuando completa*/
-    color: rgb(128, 214, 42);
+    color: var(--save-btn-color);
 }
 .completed::before {
-    color: rgb(128, 214, 42);
+    color: var(--save-btn-color);
 }
 .day:not(:hover) .completed {
-    color: rgb(128, 214, 42);
+    color: var(--save-btn-color);
     padding: 5px;
     background-color: #444;
     border-radius: 10px;
@@ -343,8 +357,8 @@ form button:active {
 
 .delete-all {
     display: block;
-    border: rgb(199, 28, 28) solid 2px;
-    color: rgb(199, 28, 28);
+    border: var(--delete-btn-color) solid 2px;
+    color: var(--delete-btn-color);
     border-radius: 100px;
     background-color: transparent;
     font-weight: 600;
@@ -356,9 +370,28 @@ form button:active {
     transition: all .25s;
 }
 .delete-all:hover{
-    background-color: rgb(199, 28, 28);
-    color: #fff;
-    box-shadow: 0 0 50px 10px rgba(199, 28, 28, 0.2);
+    background-color: var(--delete-btn-color);
+    color: var(--white);
+    box-shadow: 0 0 15px 2px var(--delete-btn-color-hover);
+}
+.reset-all {
+    display: block;
+    border: var(--dark-gray) solid 2px;
+    color: var(--dark-gray);
+    border-radius: 100px;
+    background-color: transparent;
+    font-weight: 600;
+    letter-spacing: .5px;
+    
+    margin: 20px auto;
+    padding: 20px;
+    cursor: pointer;
+    transition: all .25s;
+}
+.reset-all:hover{
+    background-color: var(--dark-gray);
+    color: var(--white);
+    box-shadow: 0 0 15px 2px var(--dark-gray);
 }
 
 
@@ -366,8 +399,8 @@ form button:active {
 footer {
     height: 50px;
     
-    background-color: rgb(45, 45, 150);
-    color: #fff;
+    background-color: var(--header-footer_color);
+    color: var(--white);
     
     display: flex;
     flex-direction: column;
@@ -378,7 +411,7 @@ footer {
     bottom: 0;
 }
 footer a {
-    color: #fff;
+    color: var(--white);
     text-decoration: none;
 }
 footer a:hover {
@@ -389,6 +422,7 @@ footer a:hover {
     position: fixed;
     height: 100vh;
     width: 100%;
+    background-color: var(--semi-transparent-black);
 
     display: flex;
     justify-content: center;
@@ -397,7 +431,7 @@ footer a:hover {
 .modal {
     width: 60%;
     height: 60%;
-    background-color: #888;
+    background-color: var(--white);
     border-radius: 10px;
     padding: 20px;
 
@@ -412,6 +446,24 @@ footer a:hover {
     "days-container days-container days-container days-container"
     ". btns btns ."
     ;
+
+    position: relative;
+    animation: slide-down .3s;
+    transition: all .3s;
+}
+@keyframes slide-down {
+    from {
+        top:-100%
+    }
+    to {
+        top: 0;
+    }
+}
+.slide-up {
+    transform: translateY(-150%);
+}
+.modal input {
+    border: 1px solid var(--dark-gray);
 }
 .btn-container-modal {
     grid-area: btns;
@@ -420,37 +472,33 @@ footer a:hover {
     gap: 10px;
     margin-top: 20px;
 }
-.btn-container-modal .save-changes-modal {
-    background-color: rgb(136, 201, 40);
-    color: #000;
+.modal .btn-container-modal .save-changes-modal {
+    border: 2px solid var(--save-btn-color);
+    color: var(--save-btn-color);
     text-align: center;
-    border: none;
     border-radius: 10px;
+    font-weight: 600;
     
     width: 150px;
     height: 50px;
     transition: all .25s;
 } 
 .btn-container-modal .save-changes-modal:hover {
-    background-color: rgb(87, 122, 33);
-    color: #fff;
-    transform: scale(1.025);
-    box-shadow: 0 0 10px 2px rgb(87, 122, 33);
+    background-color: var(--save-btn-color);
+    color: var(--white);
 }
 .btn-container-modal .dismiss-changes-modal {
-    background-color: crimson;
-    color: #000;
+    border: 2px solid var(--delete-btn-color);
+    color: var(--delete-btn-color);
     text-align: center;
-    border: none;
     border-radius: 10px;
+    font-weight: 600;
     
     width: 150px;
     height: 50px;
     transition: all .25s;
 }
 .btn-container-modal .dismiss-changes-modal:hover {
-    background-color: brown;
-    color: #fff;
-    transform: scale(1.025);
-    box-shadow: 0 0 10px 2px brown;
+    background-color: var(--delete-btn-color);
+    color: var(--white);
 }

@@ -18,7 +18,7 @@
 
 
     <!-- sweet alert js -->
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.33/dist/sweetalert2.all.min.js"></script>
 
 
     <title>CALENDARIO</title>
@@ -36,7 +36,7 @@
      
     <main>
         <div class="form-container" id="form-container">
-            <form action="#" autocomplete="off">
+            <form class="form" action="#" autocomplete="off">
                 <h3>Agregar nueva tarea</h3>
                 <label for="name">Nombre: </label>
                 <input type="text" class="task-selector" name="task-selector" id="task-selector" placeholder="Ingrese nombre">
@@ -93,11 +93,14 @@
             </div>
         </div>
         <button id="delete-all" class="delete-all">LIMPIAR TAREAS</button>
+        <button id="reset-all" class="reset-all">NUEVA SEMANA</button>
     </main>
     <footer>
         <a href="#top">AGREGAR TAREA</a>
         <p>TODOS LOS DERECHOS RESERVADOS <span id="date"></span></p>
     </footer>
+
+
     <script src="script.js"></script>
 
 </body>

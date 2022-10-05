@@ -11,19 +11,29 @@ class Task {
         return day;
     }
 }
-let tasks = []
+let tasks = JSON.parse(localStorage.getItem('allTasks')) ?? [];
+// imprime en LS en dom cuando carga página
+tasks.forEach(task => {
+    task.day.forEach(dayToPrint => {
+        addTaskToDOM(dayToPrint, task);
+    })
+})
 
-// TODO: funcion de editar tarea
+// inicializa LS
+!localStorage.length && localStorage.setItem('allTasks', JSON.stringify(tasks));
+// borra LS y agrega tasks (actuliza LS)
+function refreshLS() {
+    localStorage.clear();
+    localStorage.setItem('allTasks', JSON.stringify(tasks));
+}
 
 
 
-// toma datos de los input y 1.agrega a html 2.crea tarea
-const createTaskBtn = document.getElementById('submit');
-createTaskBtn.addEventListener('click', (e) => {
+// toma datos de los input y llama func create task
+document.getElementById('submit').addEventListener('click', (e) => {
     e.preventDefault();
-    let inputName = document.getElementById('task-selector').value.toUpperCase();
-    let inputHour = document.getElementById('hour-selector').value;
-    const id = asingId();
+    const inputName = document.getElementById('task-selector').value.toUpperCase();
+    const inputHour = document.getElementById('hour-selector').value;
 
     // obtener dias de los checkbox marcados
     const daysToRepeatTask = [];
@@ -34,16 +44,18 @@ createTaskBtn.addEventListener('click', (e) => {
     });
 
     // subir a tasks y al dom
-    createTask(daysToRepeatTask, inputName, inputHour, id);
+    createTask(daysToRepeatTask, inputName, inputHour, asingId());
 
     // mostrar toast 
     Swal.fire({
-        text: `Se agregó ${inputName} los días ${daysToRepeatTask.join(', ')}`,
+        html: `<p>Se agregó <b>${inputName}</b> los días ${daysToRepeatTask.join(', ')}</p>`,
         toast: true,
         position: 'top-end',
         timer: 3000,
         timerProgressBar: true
     })
+
+    // limpiar inputs
     document.getElementById('task-selector').value = '';
     document.getElementById('hour-selector').value = '';
     days.forEach(day => {
@@ -52,7 +64,7 @@ createTaskBtn.addEventListener('click', (e) => {
     });
 });
 
-// crea tarea y sube a tasks, actualiza LS
+// sube a task, llama func q imprime en html, actualiza LS
 function createTask (day, name, hour, id){
     let newTask = new Task (day, name, hour, id)
     tasks.push(newTask);
@@ -63,12 +75,11 @@ function asingId () {
     return tasks.length + 1;
 }
 
-// agrega al HTML + funciones borrar y checkear cuando click en btn
+// render con funciones editar, borrar y checkear (funcionan con addEventListener click sobre botones)
 function addTaskToDOM(day, {name, hour, id, completed}) {
-    // day, taskName, taskId, hour
     const ul = document.getElementById(`${day}-ul`);
     const li = document.createElement('li');
-    const liId = `${day}-${name.trim()}-${id}`
+    const liId = `${day}-${name.replace(/ /g, "")}-${id}`
     li.setAttribute('id', liId);
     li.innerHTML = `
         <p style="display:inline;" >${name}: </p> <span style="font-weight:400;">${hour} hs.</span> 
@@ -94,6 +105,7 @@ function addTaskToDOM(day, {name, hour, id, completed}) {
     completed.includes(day) && ( li.classList.toggle('completed'), document.getElementById(`icon-check-${liId}`).classList.toggle('completed') )
 }
 
+// elimina task de dom y array
 // cuando se presiona btn (btnId), html remueve child del father, saca dayToDelete de task (taskId)
 function deleteTaskBtnDOM(father, child, btnId, taskId, dayToDelete) {
     const deleteBtn = document.getElementById(btnId);
@@ -103,7 +115,8 @@ function deleteTaskBtnDOM(father, child, btnId, taskId, dayToDelete) {
     });
 }
 
-// elimina dayToDelete de task (taskId), actualiza LS
+// elimina día de la tarea
+// elimina dayToDelete de task.day (buscado x taskId), actualiza LS
 function deleteDayFromTask (taskId, dayToDelete) {
     let taskToDeleteDay = tasks.find(task => task.id == taskId);
     let taskDays = taskToDeleteDay.day;
@@ -115,7 +128,7 @@ function deleteDayFromTask (taskId, dayToDelete) {
     refreshLS();
 }
 
-// elimina task (taskId) de tasks
+// elimina task completa (buscado x taskId) de tasks
 function deleteTask (taskId) { 
     const deletedTask = tasks.find(task => task.id == taskId);
     tasks = tasks.filter(task => task.id != taskId);
@@ -123,7 +136,8 @@ function deleteTask (taskId) {
     console.log(deletedTask);
 }
 
-// cuando presiono btn (btnId), se muestra verde li e icon (iconId)
+// marca completo día
+// cuando presiono btn (btnId), se muestra verde li e icon (iconId), agrega task.day a task.complete
 function completeTaskBtnDOM (li, btnId, iconId, taskId, dayToComplete){
     const checkBtn = document.getElementById(btnId);
     const checkIcon = document.getElementById(iconId);
@@ -133,21 +147,20 @@ function completeTaskBtnDOM (li, btnId, iconId, taskId, dayToComplete){
         li.classList.toggle('completed');
         checkIcon.classList.toggle('completed');
         // sumar día a la propiedad completed
-        completedTask.completed.find(completedDays => completedDays == dayToComplete) == null ?
-        completedTask.completed.push(dayToComplete)
+        completedTask.completed.find(completedDays => completedDays == dayToComplete) == null 
+        ? completedTask.completed.push(dayToComplete)
         : completedTask.completed = completedTask.completed.filter(completedDays => completedDays !== dayToComplete);
         refreshLS()
     })
 }
 
-// TODO: editar tareas btn
+// editar tareas btn
 function editTaskBtnDOM(btnId, taskName, taskHour, taskId) {
-    const btnEdit = document.getElementById(btnId);
-    btnEdit.addEventListener('click', ()=> {
+    document.getElementById(btnId).addEventListener('click', ()=> {
         const modalContainer = document.createElement('div');
         modalContainer.classList.add('modal-container')
         modalContainer.innerHTML = `
-        <form class="modal">
+        <div class="form modal" id="modalEditTask">
             <h3>Editar tarea</h3>
             <label for="name">Nombre: </label>
             <input type="text" class="task-selector" id="name-edit" value="${taskName}">
@@ -167,7 +180,7 @@ function editTaskBtnDOM(btnId, taskName, taskHour, taskId) {
                 <button class="save-changes-modal" id="save-changes">GUARDAR CAMBIOS</> 
                 <button class="dismiss-changes-modal" id="dismiss-changes">CANCELAR</button>
             </div>
-        </form>
+        </div>
         `;
         document.body.style.overflow = "hidden";
         modalContainer.style.top = `-${window.screenTop}px`;
@@ -180,9 +193,10 @@ function editTaskBtnDOM(btnId, taskName, taskHour, taskId) {
             dayCheckbox.checked = true;
         });
 
-
+        // click en boton guardar cambios
         document.getElementById('save-changes').addEventListener('click', () => {
 
+            // borrar la tarea de dom y tasks
             taskToChange.day.forEach(day => {
                 const ul = document.getElementById(`${day}-ul`);
                 const li = document.getElementById(`${day}-${taskToChange.name.trim()}-${taskToChange.id}`);
@@ -190,11 +204,10 @@ function editTaskBtnDOM(btnId, taskName, taskHour, taskId) {
             })
             deleteTask(taskToChange.id)
             
+            // tomar nuevos datos
             let inputName = document.getElementById('name-edit').value.toUpperCase();
             let inputHour = document.getElementById('hour-edit').value;
             const id = asingId();
-
-            // obtener dias de los checkbox marcados
             const daysToRepeatTask = [];
             const days = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
             days.forEach(day => {
@@ -202,37 +215,40 @@ function editTaskBtnDOM(btnId, taskName, taskHour, taskId) {
                 dayCheckbox.checked && daysToRepeatTask.push(dayCheckbox.name);
             });
             
-
-            // subir a tasks y al dom
+            // subir a tasks y al dom nuevos datos
             createTask(daysToRepeatTask, inputName, inputHour, id);
 
             // mostrar toast 
             Swal.fire({
-                text: `${inputName} ahora es los días: ${daysToRepeatTask.join(', ')}`,
+                html: `<p>Ahora <b>${inputName}</b> es los días: ${daysToRepeatTask.join(', ')}</p>`,
                 toast: true,
                 position: 'top-end',
                 timer: 3000,
                 timerProgressBar: true
             })
 
-
-            document.body.removeChild(modalContainer);
-            document.body.style.overflow = "";
+            // salir de modal
+            document.getElementById('modalEditTask').classList.add('slide-up');
+            setTimeout(()=> {
+                document.body.removeChild(modalContainer);
+                document.body.style.overflow = "";
+            }, 250);
         })
+        // click en boton cancelar
         document.getElementById('dismiss-changes').addEventListener('click', () => {
-            document.body.removeChild(modalContainer);
-            document.body.style.overflow = "";
+            document.getElementById('modalEditTask').classList.add('slide-up');
+            setTimeout(()=> {
+                document.body.removeChild(modalContainer);
+                document.body.style.overflow = "";
+            }, 250);
         })
-
-
     })
 }
 
 
-
+// borra todo
 // despliega modal con confirmacion, elimina todas tareas, actualiza LS
-const deleteAllTasksBtn = document.getElementById('delete-all');
-deleteAllTasksBtn.addEventListener('click', ()=>{
+document.getElementById('delete-all').addEventListener('click', ()=>{
     Swal.fire({
         title: 'Advertencia',
         icon: 'warning',
@@ -262,31 +278,36 @@ deleteAllTasksBtn.addEventListener('click', ()=>{
     })
 })
 
+// descompleta todo
+// despliega modal con confirmacion, elimina completed de todas las task y dom
+document.getElementById('reset-all').addEventListener('click', ()=>{
+    Swal.fire({
+        title: 'Advertencia',
+        icon: 'warning',
+        text: 'Todas las tareas volverán a aparecer como pendientes.',
+        color: '#111',
+        confirmButtonText: 'CONFIRMAR',
+        showCancelButton: true,
+        cancelButtonText: 'CANCELAR',
 
-
-
-
-
-// LOCALSTORAGE
-localStorage.length == 0 && addToLS(tasks, 'allTasks');
-// agrega array a LS
-function addToLS (array, localStorageName) {
-    const arrayJSON = JSON.stringify(array);
-    localStorage.setItem(localStorageName, arrayJSON);
-}
-// borra LS y agrega tasks
-function refreshLS() { //borra LS y agrega tasks
-    localStorage.clear();
-    addToLS(tasks, 'allTasks');
-}
-
-// imprime en LS en dom cuando carga página
-const allTasksLS = localStorage.getItem('allTasks');
-tasks = [];
-const allTasksJSON = JSON.parse(allTasksLS);
-tasks = allTasksJSON;
-allTasksJSON.forEach(task => {
-    task.day.forEach(dayToPrint => {
-        addTaskToDOM(dayToPrint, task);
+        returnFocus: false,
+        focusConfirm: false,
+        focusCancel: false,
+    }).then((result) => {
+        result.isConfirmed && (
+            tasks.forEach(task=> task.completed = []),
+            refreshLS(),
+            document.querySelectorAll('li').forEach(li => {
+                li.classList.remove('completed');
+                document.getElementById(`icon-check-${li.id}`).classList.remove('completed')
+            }),
+            Swal.fire({
+                text:'Se comenzado una nueva semana',
+                color: '#333',
+                showConfirmButton: false,
+                showCancelButton: true,
+                cancelButtonText: 'OK'
+            })
+        )
     })
 })
