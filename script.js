@@ -324,8 +324,19 @@ document.querySelectorAll('.day-date').forEach((day, counter) => {
 });
 
 // feriados
-fetch(`http://nolaborables.com.ar/api/v2/feriados/${date.getFullYear()}`)
-.then(res => res.json())
+fetch(`http://nolaborables.com.ar/api/v2/feriados/${date.getFullYear()}`,{
+    method: 'GET',
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+      'Content-Type': 'application/json'
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: 'follow', // manual, *follow, error
+    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+})
+.then(res => {res.json(), console.log(res)})
 .then(respuesta => {
     document.querySelectorAll('.holiday-marker').forEach((day, counter) => {
         const feriadosDelDia = respuesta.filter(feriados => feriados.mes == date.getMonth()+1).find(feriadosDelMes => feriadosDelMes.dia == date.getDate()-date.getDay()+counter+1);
