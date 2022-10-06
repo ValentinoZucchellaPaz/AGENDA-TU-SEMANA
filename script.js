@@ -76,7 +76,8 @@ function asingId () {
 }
 
 // render con funciones editar, borrar y checkear (funcionan con addEventListener click sobre botones)
-function addTaskToDOM(day, {name, hour, id, completed}) {
+function addTaskToDOM(day, task) {
+    const {name, hour, id, completed} = task;
     const ul = document.getElementById(`${day}-ul`);
     const li = document.createElement('li');
     const liId = `${day}-${name.replace(/ /g, "")}-${id}`
@@ -96,52 +97,56 @@ function addTaskToDOM(day, {name, hour, id, completed}) {
             </div>`;
     ul.append(li);
     
-    deleteTaskBtnDOM(ul, li, `delete-${liId}`, id, day);
+    deleteTaskBtnDOM(ul, li, `delete-${liId}`, task, day);
 
-    completeTaskBtnDOM(li, `completed-${liId}`, `icon-check-${liId}`, id, day);
+    completeTaskBtnDOM(li, `completed-${liId}`, `icon-check-${liId}`, task, day);
 
-    editTaskBtnDOM(`edit-${liId}`, name, hour, id);
+    editTaskBtnDOM(`edit-${liId}`, task);
 
     completed.includes(day) && ( li.classList.toggle('completed'), document.getElementById(`icon-check-${liId}`).classList.toggle('completed') )
 }
 
 // elimina task de dom y array
-// cuando se presiona btn (btnId), html remueve child del father, saca dayToDelete de task (taskId)
-function deleteTaskBtnDOM(father, child, btnId, taskId, dayToDelete) {
+// cuando se presiona btn (btnId), html remueve child del father, saca dayToDelete de task
+function deleteTaskBtnDOM(father, child, btnId, task, dayToDelete) {
     const deleteBtn = document.getElementById(btnId);
     deleteBtn.addEventListener('click', ()=> {
         father.removeChild(child);
-        deleteDayFromTask(taskId, dayToDelete);
+        deleteDayFromTask(task, dayToDelete);
+
+        // mostrar toast 
+        Swal.fire({
+            html: `<p>Se eliminó <b>${task.name}</b> del día: ${dayToDelete}</p>`,
+            toast: true,
+            position: 'top-end',
+            timer: 1000,
+            timerProgressBar: true
+        })
     });
 }
 
-// elimina día de la tarea
-// elimina dayToDelete de task.day (buscado x taskId), actualiza LS
-function deleteDayFromTask (taskId, dayToDelete) {
-    let taskToDeleteDay = tasks.find(task => task.id == taskId);
+// elimina tarea y agrega nueva sin día
+function deleteDayFromTask (task, dayToDelete) {
+    let taskToDeleteDay = task;
     let taskDays = taskToDeleteDay.day;
     taskDays = taskDays.filter(day => day != dayToDelete);
     taskToDeleteDay.day = taskDays;
-    console.log(taskToDeleteDay);
 
-    taskDays.length==0 ? deleteTask(taskId) : ( deleteTask(taskId), tasks.push(taskToDeleteDay) );
+    taskDays.length==0 ? deleteTask(task) : ( deleteTask(task), tasks.push(taskToDeleteDay) );
     refreshLS();
 }
 
-// elimina task completa (buscado x taskId) de tasks
-function deleteTask (taskId) { 
-    const deletedTask = tasks.find(task => task.id == taskId);
-    tasks = tasks.filter(task => task.id != taskId);
-    console.log(`Se eliminó la tarea: ${deletedTask.name}`);
-    console.log(deletedTask);
+// elimina tarea
+function deleteTask (taskToDelete) { 
+    tasks = tasks.filter(task => task != taskToDelete);
 }
 
 // marca completo día
 // cuando presiono btn (btnId), se muestra verde li e icon (iconId), agrega task.day a task.complete
-function completeTaskBtnDOM (li, btnId, iconId, taskId, dayToComplete){
+function completeTaskBtnDOM (li, btnId, iconId, taskToComplete, dayToComplete){
     const checkBtn = document.getElementById(btnId);
     const checkIcon = document.getElementById(iconId);
-    const completedTask = tasks.find(task => task.id == taskId);
+    const completedTask = tasks.find(task => task == taskToComplete);
     
     checkBtn.addEventListener('click', ()=> {
         li.classList.toggle('completed');
@@ -155,7 +160,7 @@ function completeTaskBtnDOM (li, btnId, iconId, taskId, dayToComplete){
 }
 
 // editar tareas btn
-function editTaskBtnDOM(btnId, taskName, taskHour, taskId) {
+function editTaskBtnDOM(btnId, taskToEdit) {
     document.getElementById(btnId).addEventListener('click', ()=> {
         const modalContainer = document.createElement('div');
         modalContainer.classList.add('modal-container')
@@ -163,9 +168,9 @@ function editTaskBtnDOM(btnId, taskName, taskHour, taskId) {
         <div class="form modal" id="modalEditTask">
             <h3>Editar tarea</h3>
             <label for="name">Nombre: </label>
-            <input type="text" class="task-selector" id="name-edit" value="${taskName}">
+            <input type="text" class="task-selector" id="name-edit" value="${taskToEdit.name}">
             <label for="hour">Hora: </label>
-            <input type="text" class="hour-selector" id="hour-edit" value="${taskHour}">
+            <input type="text" class="hour-selector" id="hour-edit" value="${taskToEdit.hour}">
             <label for="days"> Días: </label>
             <div class="days-container">
                 <input type="checkbox" class="lunes" name="lunes" id="lunes-modal">
@@ -187,22 +192,21 @@ function editTaskBtnDOM(btnId, taskName, taskHour, taskId) {
         document.body.appendChild(modalContainer);
 
         // marcar días anteriores como completos en los checkbox
-        const taskToChange = tasks.find(task => task.id == taskId);
-        taskToChange.day.forEach(day => {
+        taskToEdit.day.forEach(day => {
             const dayCheckbox = document.getElementById(`${day}-modal`);
             dayCheckbox.checked = true;
         });
 
-        // click en boton guardar cambios
+        // GUARDAR
         document.getElementById('save-changes').addEventListener('click', () => {
 
             // borrar la tarea de dom y tasks
-            taskToChange.day.forEach(day => {
+            taskToEdit.day.forEach(day => {
                 const ul = document.getElementById(`${day}-ul`);
-                const li = document.getElementById(`${day}-${taskToChange.name.trim()}-${taskToChange.id}`);
+                const li = document.getElementById(`${day}-${taskToEdit.name.replace(/ /g, "")}-${taskToEdit.id}`);
                 ul.removeChild(li);
             })
-            deleteTask(taskToChange.id)
+            deleteTask(taskToEdit)
             
             // tomar nuevos datos
             let inputName = document.getElementById('name-edit').value.toUpperCase();
@@ -310,4 +314,62 @@ document.getElementById('reset-all').addEventListener('click', ()=>{
             })
         )
     })
+})
+
+// fechas
+const date = new Date();
+document.getElementById('date').innerText = date.getFullYear();
+document.querySelectorAll('.day-date').forEach((day, counter) => {
+    day.innerText = `${date.getDate()-date.getDay()+counter+1}/${date.getMonth()+1}/${date.getFullYear()}`
+});
+
+// feriados
+fetch(`http://nolaborables.com.ar/api/v2/feriados/${date.getFullYear()}`)
+.then(res => res.json())
+.then(respuesta => {
+    document.querySelectorAll('.holiday-marker').forEach((day, counter) => {
+        const feriadosDelDia = respuesta.filter(feriados => feriados.mes == date.getMonth()+1).find(feriadosDelMes => feriadosDelMes.dia == date.getDate()-date.getDay()+counter+1);
+        if(feriadosDelDia !== undefined) {
+            day.style.display='inline';
+            document.getElementById('holiday-reference').style.display = 'flex'
+            day.setAttribute('title', `${feriadosDelDia.motivo}`);
+            day.setAttribute('href', `${feriadosDelDia.info}`);
+            switch (feriadosDelDia.tipo) {
+                case 'nolaborale':
+                    day.style.backgroundColor = 'var(--feriado-nolaborable)'
+                    break;
+                case 'puente':
+                    day.style.backgroundColor = 'var(--feriado-puente)'
+                    break;
+                case 'trasladable':
+                    day.style.backgroundColor = 'var(--feriado-traladable)'
+                    break;
+            
+                default:
+                    day.style.backgroundColor = 'var(--feriado-inamovible)'
+                    break;
+            }
+        }
+    })
+})
+
+
+
+const selectTodayBtn = document.getElementById('select-today');
+const selectWeekBtn = document.getElementById('select-week');
+
+selectTodayBtn.addEventListener('click', () => {
+    selectWeekBtn.classList.remove('actual');
+    selectTodayBtn.classList.add('actual')
+    document.querySelectorAll(`.day`).forEach(block => block.style.display = 'none');
+    const actualDayBlock = document.getElementById(`day${date.getDay()}`);
+    actualDayBlock.style.display = 'block';
+    actualDayBlock.classList.add('today');
+})
+
+selectWeekBtn.addEventListener('click', () => {
+    selectTodayBtn.classList.remove('actual');
+    selectWeekBtn.classList.add('actual');
+    document.querySelectorAll(`.day`).forEach(block => block.style.display = 'block');
+    document.getElementById(`day${date.getDay()}`).classList.remove('today');
 })

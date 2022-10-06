@@ -4,12 +4,18 @@
     --white: #fff;
     --clear-gray: rgb(203, 203, 233);
     --midle-gray: gray;
-    --dark-gray: #333;
+    --dark-gray: #444;
     --transparent-gray: rgba(180, 180, 180, 0.2);
     --transparent-black: rgba(0, 0, 0, 0.2);
     --semi-transparent-black: rgba(0, 0, 0, 0.6);
     --delete-btn-color: rgb(199, 28, 28);
     --save-btn-color: rgb(128, 214, 42);
+
+    --feriado-puente:#738fd7;
+    --feriado-traladable: #bb73d7;
+    --feriado-inamovible: #ecee5d;
+    --feriado-nolaborable: #73d7b1;
+
 }
 
 
@@ -34,39 +40,6 @@ header {
     justify-content: center;
 
     position: relative;
-}
-.title {
-    position: relative;
-}
-.title::before {
-    content: '';
-
-    position: absolute;
-    bottom: -2px;
-    right: 50%;
-    width: 0;
-    height: 1px;
-
-    background-color: var(--white);
-    transition: all .5s;
-}
-.title::after {
-    content: '';
-
-    position: absolute;
-    bottom: -2px;
-    left: 50%;
-    width: 0;
-    height: 1px;
-
-    background-color: var(--white);
-    transition: all .5s;
-}
-.title:hover::before {
-    width: 25%;
-}
-.title:hover:after {
-    width: 25%;
 }
 
 
@@ -217,13 +190,62 @@ label[for="hour"] {
     transition: all 0.1s ease-in;        
 }
 .form button:hover {
-    background-color: var(--midle-gray);
+    background-color: var(--dark-gray);
     color: var(--white);
     transform: scale(1.05);
-    box-shadow: 0 0 30px 10px var(--transparent-black);
+    box-shadow: 0 0 15px 2px var(--dark-gray);
 }
 .form button:active {
     transform: scale(0.9);
+}
+
+
+
+.select-display {
+    text-align: center;
+}
+.select-display__btn {
+    background-color: transparent;
+    border: none;
+    font-weight: 600;
+    color: var(--midle-gray);
+    cursor: pointer;
+    margin: 10px;
+    font-size: 15px;
+}
+.actual {
+    color: var(--dark-gray);
+    border-bottom: 1px solid var(--dark-gray);
+}
+
+.holiday-reference {
+    margin: 10px auto;
+    width: fit-content;
+    flex-direction: row;
+}
+.holiday-reference p {
+    padding: 5px;
+    margin: 5px;
+    color: var(--semi-transparent-black);
+    font-weight: 600;
+    font-size: 12px;
+    border-radius: 20px;
+}
+.holiday-reference p:first-of-type {
+    color: var(--dark-gray);
+    font-weight: 800;
+}
+.holiday-reference__circle--inamovible{
+    background-color: var(--feriado-inamovible);
+}
+.holiday-reference__circle--nolaborable{
+    background-color: var(--feriado-nolaborable);
+}
+.holiday-reference__circle--puente{
+    background-color: var(--feriado-puente);
+}
+.holiday-reference__circle--trasladable{
+    background-color: var(--feriado-traladable);
 }
 
 
@@ -250,11 +272,11 @@ label[for="hour"] {
     border-radius: 20px;
     background-color: var(--transparent-black);
     width: 350px;
-    height: 200px;
+    height: 300px;
     transition: all .25s;
     overflow: hidden;
 }
-.day:hover {
+.day:hover{
     background-color: var(--semi-transparent-black);
     color: var(--white);
     transform: scale(1.05, 1.1);
@@ -265,6 +287,26 @@ label[for="hour"] {
     margin-bottom: 10px;
     text-transform: uppercase;
     font-size: 18px;
+}
+.day-date {
+    font-weight: 400;
+    text-align: center;
+    font-size: 12px;
+    color: var(--midle-gray);
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+.holiday-marker {
+    color:var(--semi-transparent-black) !important;
+    text-decoration: none;
+    font-size: 12px;
+    border-radius: 20px;
+    padding: 5px;
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    cursor: pointer;
 }
 .day-ul {
     position: relative;
@@ -351,7 +393,7 @@ label[for="hour"] {
 .day:not(:hover) .completed {
     color: var(--save-btn-color);
     padding: 5px;
-    background-color: #444;
+    background-color: var(--dark-gray);
     border-radius: 10px;
 }
 
@@ -501,4 +543,15 @@ footer a:hover {
 .btn-container-modal .dismiss-changes-modal:hover {
     background-color: var(--delete-btn-color);
     color: var(--white);
+}
+
+.today {
+    width: 80%;
+    height: 60vh;
+}
+
+@media screen and (max-width: 700px) {
+    .today {
+        width: 100%;
+    }
 }
