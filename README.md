@@ -26,4 +26,4 @@ Cuando editas una tarea, esta se borra y se vuelve a subir nuevamente editada, f
   
 API  
 ---  
-Se consume una API usando `fetch` y el método `GET`
+Se consume una [API de feriados](https://pjnovas.gitbooks.io/no-laborables/content/) usando `fetch` y el método `GET`, la API devuelve todos los feriados de Argentina, diferenciando `no laborables`, `trasladables`, `inamovibles`, `puentes`.  
