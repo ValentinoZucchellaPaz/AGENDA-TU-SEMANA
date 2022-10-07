@@ -325,7 +325,7 @@ document.querySelectorAll('.day-date').forEach((day, counter) => {
 
 // feriados
 fetch(`http://nolaborables.com.ar/api/v2/feriados/${date.getFullYear()}`)
-.then(res => {res.json(), console.log(res)})
+.then(res => res.json())
 .then(respuesta => {
     document.querySelectorAll('.holiday-marker').forEach((day, counter) => {
         const feriadosDelDia = respuesta.filter(feriados => feriados.mes == date.getMonth()+1).find(feriadosDelMes => feriadosDelMes.dia == date.getDate()-date.getDay()+counter+1);
