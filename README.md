@@ -6,7 +6,7 @@ LIMITACIONES:
  - Guardará las tareas que hayas marcado como completas, pero cuando empiece una nueva semana seguirán así (no te preocupes, hay un boton al final de la pagina para desmarcarlas)  
  - Solo puede mostrar la semana actual y día de hoy, vive en el presente ☮  
   
-[Demo de Agenda](https://valentinozucchellapaz.github.io/JavascriptEntrega1/)
+[Demo de Agenda](https://valentinozucchellapaz.github.io/AGENDA-TU-SEMANA/)
   
 ¿Cómo usar?  
 ---  
