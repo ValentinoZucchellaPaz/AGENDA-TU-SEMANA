@@ -18,34 +18,34 @@
 
 }
 
-
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Quicksand', sans-serif;
 }
-:focus-visible {
-    outline: none;
-}
 
-header {
+header, footer {
     height: 50px;
-    
     background-color: var(--header-footer_color);
     color: var(--white);
-    
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    position: relative;
 }
-
+footer a {
+    color: var(--white);
+    text-decoration: none;
+}
+footer a:hover {
+    text-decoration: underline;
+}
 
 /* main */
 body {
     background: var(--clear-gray);
+    text-align: center;
 }
 
 .form-container {
@@ -55,12 +55,9 @@ body {
     align-items: center;
 }
 .form {
-    margin: auto;
     padding: 10px;
     border-radius: 10px;
     border: 1px solid var(--dark-gray);
-    text-align: center;
-
 
     background-color: var(--transparent-black);
     height: 60%;
@@ -74,11 +71,11 @@ body {
     ". label-hour hour-selector ."
     ". label-days . ."
     "days-container days-container days-container days-container"
-    "btn btn btn btn";
+    ". btn btn .";
     
     justify-content: center;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
 }
 /* title */
 .form h3 {
@@ -111,6 +108,7 @@ label[for="hour"] {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
     gap: 8px;
     grid-area: days-container;
     position: relative;
@@ -170,24 +168,27 @@ label[for="hour"] {
 .form input{
     border-radius: 10px;
     height: 40px;
-    text-align: center;
     border: none;
+    text-align: center;
 }
 /* button */
 .form button {
     grid-area: btn;
-    background-color: var(--white);
-    border: none;
-    width: 25%;
-    height: 40px;
-    margin: auto;
 
+    border: 2px solid var(--dark-gray);
+    background-color: transparent;
+    color: var(--semi-transparent-black);
     text-transform: uppercase;
+    border-radius: 10px;
+    font-weight: 600;
+    
+    min-width: 150px;
+    min-height: 50px;
+    margin: 10px auto;
+    padding: 10px 30px;
     cursor: pointer;
-    border-radius: 50px;
-    text-align: center;
 
-    transition: all 0.1s ease-in;        
+    transition: all 0.15s ease-in;        
 }
 .form button:hover {
     background-color: var(--dark-gray);
@@ -199,11 +200,6 @@ label[for="hour"] {
     transform: scale(0.9);
 }
 
-
-
-.select-display {
-    text-align: center;
-}
 .select-display__btn {
     background-color: transparent;
     border: none;
@@ -220,8 +216,9 @@ label[for="hour"] {
 
 .holiday-reference {
     margin: 10px auto;
-    width: fit-content;
     flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 .holiday-reference p {
     padding: 5px;
@@ -265,6 +262,7 @@ label[for="hour"] {
     position: relative;
     padding: 10px;
     font-weight: 700;
+    text-align: center;
     
     display: flex;
     flex-direction: column;  
@@ -283,14 +281,12 @@ label[for="hour"] {
     overflow-y: auto;
 }
 .day-title{ 
-    text-align: center;
     margin-bottom: 10px;
     text-transform: uppercase;
     font-size: 18px;
 }
 .day-date {
     font-weight: 400;
-    text-align: center;
     font-size: 12px;
     color: var(--midle-gray);
     position: absolute;
@@ -325,18 +321,11 @@ label[for="hour"] {
 .day-ul li {
     width: 80%;
     margin: 3px;
-    text-align: center;
 }
 .day:hover .day-ul li {
     width: 80%;
     text-align: start;
 }
-.day-ul li p span {
-    display: none;
-}
-
-
-
 
 /* botones borrar o completar */
 .btn-container {
@@ -348,17 +337,18 @@ label[for="hour"] {
     display: inline;
 }
 .btn-delete,.btn-check, .btn-edit{
+    color: var(--clear-gray);
     display: inline;
     background-color: inherit;
     border: none;
     cursor: pointer;
+    margin: 0 2px;
 }
 .fa-xmark,.fa-check, .fa-pen-to-square{ /* estilos del <i> contenedor */
     padding: 7px;
     position: relative;
 }
 .fa-xmark::before,.fa-check::before, .fa-pen-to-square::before{ /* estilos al before que contiene al icono */
-    color: var(--transparent-gray);
     padding: 5px;
     width: 10px;
     height: 10px;
@@ -380,14 +370,11 @@ label[for="hour"] {
     transform: scale(1.2);
 }
 .btn-edit:hover .fa-pen-to-square::before{
-    color: var(--midle-gray);
+    color: var(--feriado-puente);
     transform: scale(1.2);
 }
 
 .completed { /*cambia color cuando completa*/
-    color: var(--save-btn-color);
-}
-.completed::before {
     color: var(--save-btn-color);
 }
 .day:not(:hover) .completed {
@@ -436,30 +423,6 @@ label[for="hour"] {
     box-shadow: 0 0 15px 2px var(--dark-gray);
 }
 
-
-/* footer */
-footer {
-    height: 50px;
-    
-    background-color: var(--header-footer_color);
-    color: var(--white);
-    
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    position: relative;
-    bottom: 0;
-}
-footer a {
-    color: var(--white);
-    text-decoration: none;
-}
-footer a:hover {
-    text-decoration: underline;
-}
-
 .modal-container {
     position: fixed;
     height: 100vh;
@@ -476,18 +439,6 @@ footer a:hover {
     background-color: var(--white);
     border-radius: 10px;
     padding: 20px;
-
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(6, 1fr);
-    grid-template-areas: 
-    ". title title ."
-    ". label-name task-selector ."
-    ". label-hour hour-selector ."
-    ". label-days . ."
-    "days-container days-container days-container days-container"
-    ". btns btns ."
-    ;
 
     position: relative;
     animation: slide-down .3s;
@@ -508,22 +459,14 @@ footer a:hover {
     border: 1px solid var(--dark-gray);
 }
 .btn-container-modal {
-    grid-area: btns;
+    grid-area: btn;
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
+    gap: 5px;
 }
-.modal .btn-container-modal .save-changes-modal {
+.btn-container-modal .save-changes-modal {
     border: 2px solid var(--save-btn-color);
     color: var(--save-btn-color);
-    text-align: center;
-    border-radius: 10px;
-    font-weight: 600;
-    
-    width: 150px;
-    height: 50px;
-    transition: all .25s;
 } 
 .btn-container-modal .save-changes-modal:hover {
     background-color: var(--save-btn-color);
@@ -532,13 +475,6 @@ footer a:hover {
 .btn-container-modal .dismiss-changes-modal {
     border: 2px solid var(--delete-btn-color);
     color: var(--delete-btn-color);
-    text-align: center;
-    border-radius: 10px;
-    font-weight: 600;
-    
-    width: 150px;
-    height: 50px;
-    transition: all .25s;
 }
 .btn-container-modal .dismiss-changes-modal:hover {
     background-color: var(--delete-btn-color);
@@ -550,8 +486,36 @@ footer a:hover {
     height: 60vh;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 900px) {
     .today {
         width: 100%;
+    }
+    .form h3 {
+        font-size: 22px;
+    }
+    .form {
+        width: 80%;
+        height: 80%;
+    }
+    .days-container input[type="checkbox"] {
+        width: 40px;
+        height: 40px;
+        font-size: 15px;
+    }
+    /* .btn-check:hover .fa-check::before {
+        color: inherit;
+        transform: scale(1);
+    } */
+    .modal{
+        height: 80%;
+    }
+}
+@media screen and (max-width: 400px) {
+    .form button {
+        min-width: 100px;
+        min-height: 50px;
+        max-width: 100px;
+        max-height: 50px;
+        padding: 5px;
     }
 }

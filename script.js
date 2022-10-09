@@ -21,7 +21,7 @@ tasks.forEach(task => {
 
 // inicializa LS
 !localStorage.length && localStorage.setItem('allTasks', JSON.stringify(tasks));
-// borra LS y agrega tasks (actuliza LS)
+// cuando se cambia tarea se actualiza LS
 function refreshLS() {
     localStorage.clear();
     localStorage.setItem('allTasks', JSON.stringify(tasks));
@@ -64,7 +64,7 @@ document.getElementById('submit').addEventListener('click', (e) => {
     });
 });
 
-// sube a task, llama func q imprime en html, actualiza LS
+// sube a task, imprime en html, actualiza LS
 function createTask (day, name, hour, id){
     let newTask = new Task (day, name, hour, id)
     tasks.push(newTask);
@@ -75,7 +75,7 @@ function asingId () {
     return tasks.length + 1;
 }
 
-// render con funciones editar, borrar y checkear (funcionan con addEventListener click sobre botones)
+// imprime en html con funciones editar, borrar y checkear tarea
 function addTaskToDOM(day, task) {
     const {name, hour, id, completed} = task;
     const ul = document.getElementById(`${day}-ul`);
@@ -197,7 +197,7 @@ function editTaskBtnDOM(btnId, taskToEdit) {
             dayCheckbox.checked = true;
         });
 
-        // GUARDAR
+        // BTN GUARDAR
         document.getElementById('save-changes').addEventListener('click', () => {
 
             // borrar la tarea de dom y tasks
@@ -238,7 +238,7 @@ function editTaskBtnDOM(btnId, taskToEdit) {
                 document.body.style.overflow = "";
             }, 250);
         })
-        // click en boton cancelar
+        // BTN CANCELAR
         document.getElementById('dismiss-changes').addEventListener('click', () => {
             document.getElementById('modalEditTask').classList.add('slide-up');
             setTimeout(()=> {
@@ -250,7 +250,7 @@ function editTaskBtnDOM(btnId, taskToEdit) {
 }
 
 
-// borra todo
+// BORRAR TODO
 // despliega modal con confirmacion, elimina todas tareas, actualiza LS
 document.getElementById('delete-all').addEventListener('click', ()=>{
     Swal.fire({
@@ -282,7 +282,7 @@ document.getElementById('delete-all').addEventListener('click', ()=>{
     })
 })
 
-// descompleta todo
+// DESCOMPLETA TODO
 // despliega modal con confirmacion, elimina completed de todas las task y dom
 document.getElementById('reset-all').addEventListener('click', ()=>{
     Swal.fire({
@@ -316,26 +316,28 @@ document.getElementById('reset-all').addEventListener('click', ()=>{
     })
 })
 
-// fechas
+// asignar fechas a cada bloque
 const date = new Date();
+const actualWeekDay = date.getDay() || 7;
 document.getElementById('date').innerText = date.getFullYear();
 document.querySelectorAll('.day-date').forEach((day, counter) => {
-    day.innerText = `${date.getDate()-date.getDay()+counter+1}/${date.getMonth()+1}/${date.getFullYear()}`
+    // día del mes menos día de la semana más uno == primer día de la semana
+    day.innerText = `${date.getDate()-actualWeekDay+counter+1}/${date.getMonth()+1}/${date.getFullYear()}`
 });
 
-// feriados
+// mostrar feriados
 fetch(`https://nolaborables.com.ar/api/v2/feriados/${date.getFullYear()}`)
 .then(res => res.json())
 .then(respuesta => {
     document.querySelectorAll('.holiday-marker').forEach((day, counter) => {
-        const feriadosDelDia = respuesta.filter(feriados => feriados.mes == date.getMonth()+1).find(feriadosDelMes => feriadosDelMes.dia == date.getDate()-date.getDay()+counter+1);
+        const feriadosDelDia = respuesta.filter(feriados => feriados.mes == date.getMonth()+1).find(feriadosDelMes => feriadosDelMes.dia == date.getDate()-actualWeekDay+counter+1);
         if(feriadosDelDia !== undefined) {
             day.style.display='inline';
             document.getElementById('holiday-reference').style.display = 'flex'
             day.setAttribute('title', `${feriadosDelDia.motivo}`);
             day.setAttribute('href', `${feriadosDelDia.info}`);
             switch (feriadosDelDia.tipo) {
-                case 'nolaborale':
+                case 'nolaborable':
                     day.style.backgroundColor = 'var(--feriado-nolaborable)'
                     break;
                 case 'puente':
@@ -353,8 +355,7 @@ fetch(`https://nolaborables.com.ar/api/v2/feriados/${date.getFullYear()}`)
     })
 })
 
-
-
+// cambiar visualizacion de días de la semana HOY - SEMANA
 const selectTodayBtn = document.getElementById('select-today');
 const selectWeekBtn = document.getElementById('select-week');
 
@@ -362,7 +363,7 @@ selectTodayBtn.addEventListener('click', () => {
     selectWeekBtn.classList.remove('actual');
     selectTodayBtn.classList.add('actual')
     document.querySelectorAll(`.day`).forEach(block => block.style.display = 'none');
-    const actualDayBlock = document.getElementById(`day${date.getDay()}`);
+    const actualDayBlock = document.getElementById(`day${actualWeekDay}`);
     actualDayBlock.style.display = 'block';
     actualDayBlock.classList.add('today');
 })
@@ -371,5 +372,5 @@ selectWeekBtn.addEventListener('click', () => {
     selectTodayBtn.classList.remove('actual');
     selectWeekBtn.classList.add('actual');
     document.querySelectorAll(`.day`).forEach(block => block.style.display = 'block');
-    document.getElementById(`day${date.getDay()}`).classList.remove('today');
+    document.getElementById(`day${actualWeekDay}`).classList.remove('today');
 })

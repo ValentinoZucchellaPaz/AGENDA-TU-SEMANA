@@ -24,17 +24,13 @@
     <title>CALENDARIO</title>
 </head>
 <body>
-     <!-- HACER CALENDARIO AGENDA
-     debo poder agendar mis tareas y eventos en los distintos dias de la semana
-     ademas debo poder organizar mis horarios diarios
-     todo esto entrando con mi propio usario -->
      <header id="top">
         <h2>
             ORGANIZA TU SEMANA
         </h2>
     </header>
-     
     <main>
+        <!-- form ingreso de datos -->
         <div class="form-container" id="form-container">
             <form class="form" action="#" autocomplete="off">
                 <h3>Agregar nueva tarea</h3>
@@ -55,9 +51,11 @@
                 <button id="submit">Agregar tarea</button>
             </form>
         </div>
+        <!-- cambiar visualizacion días -->
         <div class="select-display">
             <button id="select-today" class="select-display__btn"> HOY </button>
             <button id="select-week" class="select-display__btn actual"> SEMANA </button>
+            <!-- mostrar leyenda de feriados cuando haya uno -->
             <div style="display: none;" class="holiday-reference" id="holiday-reference">
                 <p>FERIADOS: </p>
                 <p class="holiday-reference__circle--inamovible">INAMOVIBLE</p>
@@ -66,6 +64,7 @@
                 <p class="holiday-reference__circle--puente">PUENTE</p>
             </div>
         </div>
+        <!-- visualizacion de los días -->
         <div class="container-days" id="container-days">
             <div class="day" id="day1">
                 <h4 class="day-title">Lunes</h4>
@@ -122,12 +121,13 @@
                 </ul>
             </div>
         </div>
+        <!-- botones borrar y sacar complete de todos los días -->
         <button id="delete-all" class="delete-all">LIMPIAR TAREAS</button>
         <button id="reset-all" class="reset-all">NUEVA SEMANA</button>
     </main>
     <footer>
-        <a href="#top">AGREGAR TAREA</a>
         <p>TODOS LOS DERECHOS RESERVADOS <span id="date"></span></p>
+        <a href="#top">AGREGAR TAREA</a>
     </footer>
 
 
