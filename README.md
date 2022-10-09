@@ -4,7 +4,7 @@ Podrás marcar tus tareas como completas, editarlas y hasta eliminarlas.
   
 LIMITACIONES:  
  - Guardará las tareas que hayas marcado como completas, pero cuando empiece una nueva semana seguirán así (no te preocupes, hay un boton al final de la pagina para desmarcarlas)  
- - Solo puede mostrar la semana actual, vive en el presente ☮  
+ - Solo puede mostrar la semana actual y día de hoy, vive en el presente ☮  
   
 [Demo de Agenda](https://valentinozucchellapaz.github.io/JavascriptEntrega1/)
   
